@@ -12,8 +12,10 @@ struct Object { //podstawowa struktura
 	float hard_accel = -500.f;
 	float used_accel = -250.f;
 	float dash_cooldown = 0.f;
+	float shot_cooldown = 0.f;
 	bool movable = true;
 	bool max_speed_on = false;
+	bool visible = true;
 	virtual void _physics_process(float delta) { // ta funcja dzieje się co klatkę i każda struktura moze urzyć tej funcji 
 		float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);// która jest Object może mieć ruch
 		if (length != 0) { // aby na ukos nie biegał szybciej 
@@ -44,6 +46,12 @@ struct Object { //podstawowa struktura
 		else {
 			dash_cooldown = 0.f;
 		}
+		if (shot_cooldown - delta >= 0.f) {  // tu obsługo cooldownu dasha
+			shot_cooldown -= delta;
+		}
+		else {
+			shot_cooldown = 0.f;
+		}
 		if (speed > max_speed) { // tu to jest dla gracza na sztywno zrobione 
 			used_accel = hard_accel; // to sprawia że gracz szybko zwalnia do max prędkości
 		}			// przez co jest lepszy feal gry i dasha
@@ -53,30 +61,39 @@ struct Object { //podstawowa struktura
 	}
 };
 
+struct Bullet : public Object {  // tu zrobiłem strukture dziedziczącą z Object dla bulletów tylko 
+	float life_time = 5;
+	virtual void _physics_process(float delta) {  
+		Object::_physics_process(delta);  // tu by działałą fizyka z Object
+		if (life_time - delta > 0) {  // obsługa lifetime
+			life_time -= delta;
+		}
+		else {
+			life_time = 0;
+		}
+		if (life_time == 0) { // bullet po pewnym czasie znika
+			visible = false;
+		}
+	}
+};
+
 int main() {
     sf::RenderWindow window(sf::VideoMode({ 800,800 }), "Zbijak");  // tworzy okno w {} jest rozmiar, "Zbijak" wyświetla się na górze okienka
+	const int max_bullets = 10; // const jest potrzebny do tablicy  
 
-	//inicjacja obiektów 
-	Object pilka;  // tu nazywasz obiekt i piszesz co to za obiekt ( narazie wszystko z Object bo będzie najłatwiej )
-	pilka.color = sf::Color::Red;  // tu zmieniasz wartości tych zmiennych z góry z struktury  
-	pilka.sprite = sf::CircleShape(5.f);
-	pilka.sprite.setFillColor(pilka.color);
-	pilka.sprite.setPosition({400.f, 400.f});
-	pilka.direction = { 1.f, 1.f };
-	pilka.speed = 250;
-	pilka.max_speed = 250.f;
+	// inicjacja obiektów
 
-	Object pilka2;
-	pilka2.color = sf::Color::Blue;
-	pilka2.sprite = sf::CircleShape(5.f);
-	pilka2.sprite.setFillColor(pilka2.color);
-	pilka2.sprite.setPosition({200.f, 200.f});
-	pilka2.direction = { -1.f, 1.f };
-	pilka2.speed = 250;
-	pilka2.max_speed = 250.f;
+	Bullet bullets[10]; // tablica na pociski
+	for (int i = 0; i < max_bullets; i++) {
+		bullets[i].visible = false;
+		bullets[i].sprite = sf::CircleShape(3.f);
+		bullets[i].color = sf::Color::Yellow;
+		bullets[i].sprite.setFillColor(sf::Color::Yellow);
+		bullets[i].accel = -100.f;
+	}
 
-	Object gracz;
-	gracz.color = sf::Color::Cyan;
+	Object gracz; // tu nazywasz obiekt i piszesz co to za obiekt ( narazie wszystko z Object bo będzie najłatwiej )
+	gracz.color = sf::Color::Cyan;  // tu zmieniasz wartości tych zmiennych z góry z struktury
 	gracz.sprite = sf::CircleShape(10.f);
 	gracz.sprite.setFillColor(gracz.color);
 	gracz.sprite.setPosition({ 100.f, 100.f });
@@ -97,28 +114,28 @@ int main() {
 		}
 		gracz.max_speed_on = false;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) { //tu jest ogarniani unputu z klawiatury
-			if (gracz.speed < gracz.max_speed) {  // ten warunek sprawia że nie oddziałowywuje gdy dashujesz przez co nie możesz zminiać kierunku dasha
+			if (gracz.speed <= gracz.max_speed) {  // ten warunek sprawia że nie oddziałowywuje gdy dashujesz przez co nie możesz zminiać kierunku dasha
 				gracz.direction.y = -1;//to jest specjalnie bo współrzędne y-kowe są na odwrót. x -owe są normalnie jak coś 
 				gracz.max_speed_on = true;
 				gracz.speed = gracz.max_speed;
 			}
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) { // dla 4 inputów (WSAD
-			if (gracz.speed < gracz.max_speed) {
+			if (gracz.speed <= gracz.max_speed) {
 				gracz.direction.y = 1;
 				gracz.max_speed_on = true;
 				gracz.speed = gracz.max_speed;
 			}
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
-			if (gracz.speed < gracz.max_speed) {
+			if (gracz.speed <= gracz.max_speed) {
 				gracz.direction.x = -1;
 				gracz.max_speed_on = true;
 				gracz.speed = gracz.max_speed;
 			}
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
-			if (gracz.speed < gracz.max_speed) {
+			if (gracz.speed <= gracz.max_speed) {
 				gracz.direction.x = 1;
 				gracz.max_speed_on = true;
 				gracz.speed = gracz.max_speed;
@@ -131,15 +148,34 @@ int main() {
 				gracz.direction = gracz.last_direction; // używa last direction by można było dashować jak sie stoi
 			}
 		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Q)) {  //strzał piłką 
+			if (gracz.shot_cooldown <= 0.f) {
+				for (int i = 0; i < max_bullets; i++) {	
+					if (bullets[i].visible == false) {
+						bullets[i].visible = true;
+						bullets[i].sprite.setPosition(gracz.sprite.getPosition());
+						bullets[i].direction = gracz.last_direction;
+						bullets[i].speed = 400.f;
+						bullets[i].life_time = 3.f;
+						break;
+					}
+				}
+				gracz.shot_cooldown = 2;
+			}
+		}
 		// tu _physic_process()
-		pilka._physics_process(delta); 
-		pilka2._physics_process(delta);
 		gracz._physics_process(delta);
 		// tu pomiędzy clear() a display() dajemy draw do obiektów bo bez draw nic sie nie wyświetli
 		window.clear();  // czyści okno z poprzedniej klatki
-		window.draw(pilka.sprite);
-		window.draw(pilka2.sprite);
-		window.draw(gracz.sprite);
+		for (int i = 0; i < max_bullets; i++) {
+			if (bullets[i].visible) {
+				bullets[i]._physics_process(delta);
+				window.draw(bullets[i].sprite);
+			}
+		}
+		if (gracz.visible) {
+			window.draw(gracz.sprite);
+		}
 		window.display(); // wyświetla zawartość okna
     }
     return 0;
