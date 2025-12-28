@@ -9,8 +9,8 @@ struct Object { //podstawowa struktura
 	float speed = 0.f;
 	float max_speed = 150.f;
 	float accel = -250.f;
-	float hard_accel = -500.f;
-	float used_accel = -250.f;
+	float hard_accel = -500.f;  // to jest accel do dasha
+	float used_accel = -250.f;  // aktualny accel
 	float dash_cooldown = 0.f;
 	float shot_cooldown = 0.f;
 	bool movable = true;
@@ -62,9 +62,11 @@ struct Object { //podstawowa struktura
 };
 
 struct Bullet : public Object {  // tu zrobiłem strukture dziedziczącą z Object dla bulletów tylko 
-	float life_time = 5;
+	float life_time = 4;
 	virtual void _physics_process(float delta) {  
-		Object::_physics_process(delta);  // tu by działałą fizyka z Object
+		if (visible) {
+			Object::_physics_process(delta);  // tu by działałą fizyka z Object
+		}
 		if (life_time - delta > 0) {  // obsługa lifetime
 			life_time -= delta;
 		}
@@ -89,7 +91,7 @@ int main() {
 		bullets[i].sprite = sf::CircleShape(3.f);
 		bullets[i].color = sf::Color::Yellow;
 		bullets[i].sprite.setFillColor(sf::Color::Yellow);
-		bullets[i].accel = -100.f;
+		bullets[i].accel = -50.f;
 	}
 
 	Object gracz; // tu nazywasz obiekt i piszesz co to za obiekt ( narazie wszystko z Object bo będzie najłatwiej )
@@ -115,12 +117,12 @@ int main() {
 		gracz.max_speed_on = false;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) { //tu jest ogarniani unputu z klawiatury
 			if (gracz.speed <= gracz.max_speed) {  // ten warunek sprawia że nie oddziałowywuje gdy dashujesz przez co nie możesz zminiać kierunku dasha
-				gracz.direction.y = -1;//to jest specjalnie bo współrzędne y-kowe są na odwrót. x -owe są normalnie jak coś 
-				gracz.max_speed_on = true;
+				gracz.direction.y = -1; //to jest specjalnie bo współrzędne y-kowe są na odwrót. x -owe są normalnie jak coś 
+				gracz.max_speed_on = true; // dla 4 inputów (WSAD)
 				gracz.speed = gracz.max_speed;
 			}
 		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) { // dla 4 inputów (WSAD
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
 			if (gracz.speed <= gracz.max_speed) {
 				gracz.direction.y = 1;
 				gracz.max_speed_on = true;
@@ -149,15 +151,15 @@ int main() {
 			}
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Q)) {  //strzał piłką 
-			if (gracz.shot_cooldown <= 0.f) {
-				for (int i = 0; i < max_bullets; i++) {	
-					if (bullets[i].visible == false) {
-						bullets[i].visible = true;
+			if (gracz.shot_cooldown <= 0.f) { 
+				for (int i = 0; i < max_bullets; i++) {	 // tu przechodzi przez wszystkie dostępne bullety dostępne 
+					if (bullets[i].visible == false) {  
+						bullets[i].visible = true;  // tu zmienia parametry i ustawia dla tego bulleta 
 						bullets[i].sprite.setPosition(gracz.sprite.getPosition());
 						bullets[i].direction = gracz.last_direction;
 						bullets[i].speed = 400.f;
 						bullets[i].life_time = 3.f;
-						break;
+						break; // by nie szukał dalej
 					}
 				}
 				gracz.shot_cooldown = 2;
