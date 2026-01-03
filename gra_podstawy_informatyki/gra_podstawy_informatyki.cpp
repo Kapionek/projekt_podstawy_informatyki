@@ -16,6 +16,7 @@ struct Object { //podstawowa struktura
 	bool movable = true;
 	bool max_speed_on = false;
 	bool visible = true;
+
 	virtual void _physics_process(float delta) { // ta funcja dzieje się co klatkę i każda struktura moze urzyć tej funcji 
 		float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);// która jest Object może mieć ruch
 		if (length != 0) { // aby na ukos nie biegał szybciej 
@@ -40,7 +41,7 @@ struct Object { //podstawowa struktura
 				speed = 0.f;
 			}
 		}
-		if (dash_cooldown - delta >= 0.f) {  // tu obsługo cooldownu dasha
+		if (dash_cooldown - delta >= 0.f) {  // tu obsługo cooldownu dasha	
 			dash_cooldown -= delta;
 		}
 		else {
