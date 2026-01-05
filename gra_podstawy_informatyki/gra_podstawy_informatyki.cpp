@@ -102,6 +102,13 @@ int main() {
 	gracz.sprite.setPosition({ 100.f, 100.f });
 	gracz.accel = -250.f;
 
+	Object gracz2;
+	gracz2.color = sf::Color::Cyan;  
+	gracz2.sprite = sf::CircleShape(10.f);
+	gracz2.sprite.setFillColor(gracz2.color);
+	gracz2.sprite.setPosition({ 100.f, 100.f });
+	gracz2.accel = -250.f;
+
 	sf::Clock clock; // zegar do mierzenia czasu między klatkami
 	while (window.isOpen()) {   // to spawia że gra działa dopóki okno jest otwarte
 		sf::Time dt = clock.restart(); // mierzy czas między klatkami
@@ -151,6 +158,7 @@ int main() {
 				gracz.direction = gracz.last_direction; // używa last direction by można było dashować jak sie stoi
 			}
 		}
+
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Q)) {  //strzał piłką 
 			if (gracz.shot_cooldown <= 0.f) { 
 				for (int i = 0; i < max_bullets; i++) {	 // tu przechodzi przez wszystkie dostępne bullety dostępne 
@@ -166,8 +174,65 @@ int main() {
 				gracz.shot_cooldown = 2;
 			}
 		}
+
+
+		if (gracz2.speed <= 0.f) { 
+			gracz2.direction = { 0.f, 0.f };
+		}
+		gracz2.max_speed_on = false;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::I)) { 
+			if (gracz2.speed <= gracz2.max_speed) {  
+				gracz2.direction.y = -1; 
+				gracz2.max_speed_on = true; 
+				gracz2.speed = gracz2.max_speed;
+			}
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::K)) {
+			if (gracz2.speed <= gracz2.max_speed) {
+				gracz2.direction.y = 1;
+				gracz2.max_speed_on = true;
+				gracz2.speed = gracz2.max_speed;
+			}
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::J)) {
+			if (gracz2.speed <= gracz2.max_speed) {
+				gracz2.direction.x = -1;
+				gracz2.max_speed_on = true;
+				gracz2.speed = gracz2.max_speed;
+			}
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::L)) {
+			if (gracz2.speed <= gracz2.max_speed) {
+				gracz2.direction.x = 1;
+				gracz2.max_speed_on = true;
+				gracz2.speed = gracz2.max_speed;
+			}
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::O)) {  
+			if (gracz2.dash_cooldown <= 0.f) {
+				gracz2.speed = 350.f;
+				gracz2.dash_cooldown = 0.5;
+				gracz2.direction = gracz2.last_direction;
+		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::U)) {  
+			if (gracz2.shot_cooldown <= 0.f) {
+				for (int i = 0; i < max_bullets; i++) {	  
+					if (bullets[i].visible == false) {
+						bullets[i].visible = true;  
+						bullets[i].sprite.setPosition(gracz2.sprite.getPosition());
+						bullets[i].direction = gracz2.last_direction;
+						bullets[i].speed = 400.f;
+						bullets[i].life_time = 3.f;
+						break; 
+					}
+				}
+				gracz2.shot_cooldown = 2;
+			}
+		}
 		// tu _physic_process()
 		gracz._physics_process(delta);
+		gracz2._physics_process(delta);
 		// tu pomiędzy clear() a display() dajemy draw do obiektów bo bez draw nic sie nie wyświetli
 		window.clear();  // czyści okno z poprzedniej klatki
 		for (int i = 0; i < max_bullets; i++) {
@@ -178,6 +243,9 @@ int main() {
 		}
 		if (gracz.visible) {
 			window.draw(gracz.sprite);
+		}
+		if (gracz2.visible) {
+			window.draw(gracz2.sprite);
 		}
 		window.display(); // wyświetla zawartość okna
     }
