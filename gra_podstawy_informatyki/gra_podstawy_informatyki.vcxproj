@@ -134,10 +134,12 @@
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="gra_podstawy_informatyki.cpp" />
     <ClCompile Include="obiekty.cpp" />
+    <ClCompile Include="sterowanie.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bullet.h" />
     <ClInclude Include="obiekty.h" />
+    <ClInclude Include="sterowanie.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
