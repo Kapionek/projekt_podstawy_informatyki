@@ -1,7 +1,7 @@
 ﻿#include <SFML/Graphics.hpp>  // biblioteka SFML
 
 struct Object { //podstawowa struktura
-	sf::CircleShape sprite; 
+	sf::CircleShape sprite;
 	sf::Vector2f direction;
 	sf::Vector2f last_direction; // to się przyda potem 
 	sf::Vector2f velocity;
@@ -16,8 +16,7 @@ struct Object { //podstawowa struktura
 	bool movable = true;
 	bool max_speed_on = false;
 	bool visible = true;
-
-	virtual void _physics_process(float delta) { // ta funcja dzieje się co klatkę i każda struktura moze użyć tej funcji 
+	virtual void _physics_process(float delta) { // ta funcja dzieje się co klatkę i każda struktura moze urzyć tej funcji 
 		float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);// która jest Object może mieć ruch
 		if (length != 0) { // aby na ukos nie biegał szybciej 
 			direction.x /= length;
@@ -34,14 +33,14 @@ struct Object { //podstawowa struktura
 			speed = 0;
 		}
 		if (!max_speed_on) {  // tu jest zwalnianie normalne
-			if (speed + used_accel * delta> 0.f) {
+			if (speed + used_accel * delta > 0.f) {
 				speed += used_accel * delta;
 			}
 			else {
 				speed = 0.f;
 			}
 		}
-		if (dash_cooldown - delta >= 0.f) {  // tu obsługo cooldownu dasha	
+		if (dash_cooldown - delta >= 0.f) {  // tu obsługo cooldownu dasha
 			dash_cooldown -= delta;
 		}
 		else {
@@ -64,7 +63,7 @@ struct Object { //podstawowa struktura
 
 struct Bullet : public Object {  // tu zrobiłem strukture dziedziczącą z Object dla bulletów tylko 
 	float life_time = 4;
-	virtual void _physics_process(float delta) {  
+	virtual void _physics_process(float delta) {
 		if (visible) {
 			Object::_physics_process(delta);  // tu by działałą fizyka z Object
 		}
@@ -81,18 +80,27 @@ struct Bullet : public Object {  // tu zrobiłem strukture dziedziczącą z Obje
 };
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode({ 800,800 }), "Zbijak");  // tworzy okno w {} jest rozmiar, "Zbijak" wyświetla się na górze okienka
+	sf::RenderWindow window(sf::VideoMode({ 800,800 }), "Zbijak");  // tworzy okno w {} jest rozmiar, "Zbijak" wyświetla się na górze okienka
 	const int max_bullets = 10; // const jest potrzebny do tablicy  
 
 	// inicjacja obiektów
 
 	Bullet bullets[10]; // tablica na pociski
+	Object walls[10];
 	for (int i = 0; i < max_bullets; i++) {
 		bullets[i].visible = false;
 		bullets[i].sprite = sf::CircleShape(3.f);
 		bullets[i].color = sf::Color::Yellow;
 		bullets[i].sprite.setFillColor(sf::Color::Yellow);
 		bullets[i].accel = -50.f;
+	}
+
+	for (int i = 0; i < 10; i++) {
+		walls[i].movable = false;
+		walls[i].color = sf::Color::Red;
+		walls[i].sprite = sf::CircleShape(10.f);
+		walls[i].sprite.setFillColor(sf::Color::Red);
+		walls[i].sprite.setPosition({ float(10 * i + 100), float(400) });
 	}
 
 	Object gracz; // tu nazywasz obiekt i piszesz co to za obiekt ( narazie wszystko z Object bo będzie najłatwiej )
@@ -112,12 +120,12 @@ int main() {
 	sf::Clock clock; // zegar do mierzenia czasu między klatkami
 	while (window.isOpen()) {   // to spawia że gra działa dopóki okno jest otwarte
 		sf::Time dt = clock.restart(); // mierzy czas między klatkami
-        float delta = dt.asSeconds(); 
+		float delta = dt.asSeconds();
 
 		while (const std::optional event = window.pollEvent()) { // sparawdza czy zaszło jakieś zdarzenie (np. kliknięcie krzyżyka)
-            if (event->is<sf::Event::Closed>()) 
+			if (event->is<sf::Event::Closed>())
 				window.close(); // zamyka okno kiedy klikniemy na krzyżyk
-        } // tu nic nie zmieniamy ^
+		} // tu nic nie zmieniamy ^
 
 		if (gracz.speed <= 0.f) { // ta część obsługuje gracza i też zwalnianie
 			gracz.direction = { 0.f, 0.f };
@@ -160,9 +168,9 @@ int main() {
 		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Q)) {  //strzał piłką 
-			if (gracz.shot_cooldown <= 0.f) { 
+			if (gracz.shot_cooldown <= 0.f) {
 				for (int i = 0; i < max_bullets; i++) {	 // tu przechodzi przez wszystkie dostępne bullety dostępne 
-					if (bullets[i].visible == false) {  
+					if (bullets[i].visible == false) {
 						bullets[i].visible = true;  // tu zmienia parametry i ustawia dla tego bulleta 
 						bullets[i].sprite.setPosition(gracz.sprite.getPosition());
 						bullets[i].direction = gracz.last_direction;
@@ -236,6 +244,11 @@ int main() {
 		gracz2._physics_process(delta);
 		// tu pomiędzy clear() a display() dajemy draw do obiektów bo bez draw nic sie nie wyświetli
 		window.clear();  // czyści okno z poprzedniej klatki
+		for (int i = 0; i < 10; i++) {
+			if (walls[i].visible) {
+				window.draw(walls[i].sprite);
+			}
+		}
 		for (int i = 0; i < max_bullets; i++) {
 			if (bullets[i].visible) {
 				bullets[i]._physics_process(delta);
@@ -249,6 +262,6 @@ int main() {
 			window.draw(gracz2.sprite);
 		}
 		window.display(); // wyświetla zawartość okna
-    }
-    return 0;
+	}
+	return 0;
 }
