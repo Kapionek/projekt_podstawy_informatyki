@@ -208,11 +208,12 @@ int main() {
 				gracz2.speed = gracz2.max_speed;
 			}
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::O)) {  
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::O)) {
 			if (gracz2.dash_cooldown <= 0.f) {
 				gracz2.speed = 350.f;
 				gracz2.dash_cooldown = 0.5;
 				gracz2.direction = gracz2.last_direction;
+			}
 		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::U)) {  
