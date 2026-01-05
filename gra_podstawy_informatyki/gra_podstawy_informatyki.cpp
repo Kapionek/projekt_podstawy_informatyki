@@ -17,7 +17,7 @@ struct Object { //podstawowa struktura
 	bool max_speed_on = false;
 	bool visible = true;
 
-	virtual void _physics_process(float delta) { // ta funcja dzieje się co klatkę i każda struktura moze urzyć tej funcji 
+	virtual void _physics_process(float delta) { // ta funcja dzieje się co klatkę i każda struktura moze użyć tej funcji 
 		float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);// która jest Object może mieć ruch
 		if (length != 0) { // aby na ukos nie biegał szybciej 
 			direction.x /= length;
