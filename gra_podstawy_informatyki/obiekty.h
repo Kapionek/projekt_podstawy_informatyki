@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp> 
 
 struct Object { //podstawowa struktura
-	sf::CircleShape sprite;
+	sf::Sprite sprite;
 	sf::Vector2f direction;
 	sf::Vector2f last_direction; // to siê przyda potem 
 	sf::Vector2f velocity;
@@ -17,5 +17,8 @@ struct Object { //podstawowa struktura
 	bool movable = true;
 	bool max_speed_on = false;
 	bool visible = true;
+
+	Object(const sf::Texture& texture) : sprite(texture) {}  // to sprawia ¿e potem mo¿esz napisaæ Object(texture) i to daje texture
+															 // jako texture sprita poprzez sprite(texture) 
 	virtual void _physics_process(float delta);
 };
