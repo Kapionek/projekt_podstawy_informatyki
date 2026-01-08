@@ -69,16 +69,28 @@ int main() {
 		for (int i = 0; i < max_bullets; i++) {
 			if (bullets[i].visible) {
 				for (int j = 0; j < 10; j++) {
-					if (bullets[i].sprawdzKolizje(walls[j])) {
-						bullets[i].visible = false; //piłka ze ścianą
+					//sprawdzanie, czy zaszła kolizja i pobranie jej obszaru
+					auto pole_kolizji = bullets[i].sprite.getGlobalBounds().findIntersection(walls[j].sprite.getGlobalBounds()); 
+					//zmienna ta przechowuje mały prostokąt, czyli wspolny obszar piłki i ściany gdy zachodzi kolizja
+
+					if (pole_kolizji){ //doszło do zderzenia
+						if (pole_kolizji->size.x < pole_kolizji->size.y) { //uderzenie z boku (węższe pole kolizji)
+							bullets[i].direction.x *= -1.0f; // odwracanie kierunku poziomego
+						}
+						else {
+							bullets[i].direction.y *= -1.0f;
+						}
+						bullets[i].sprite.move(bullets[i].direction * 2.0f);
 					}
 				}
 				// kolizja z graczami
-				if (bullets[i].sprawdzKolizje(gracz)) {
-					gracz.visible = false; bullets[i].visible = false;
-				}
-				if (bullets[i].sprawdzKolizje(gracz2)) {
-					gracz2.visible = false; bullets[i].visible = false;
+				if (bullets[i].life_time < 2.8f) { //czas ochorny 0,2s
+					if (bullets[i].sprawdzKolizje(gracz)) {
+						gracz.visible = false; bullets[i].visible = false;
+					}
+					if (bullets[i].sprawdzKolizje(gracz2)) {
+						gracz2.visible = false; bullets[i].visible = false;
+					}
 				}
 			}
 		}
