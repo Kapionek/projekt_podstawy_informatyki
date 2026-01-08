@@ -13,4 +13,4 @@ void Bullet::_physics_process(float delta) {
 	if (life_time == 0) { // bullet po pewnym czasie znika
 		visible = false;
 	}
-};
+}

@@ -22,18 +22,25 @@ int main() {
 	// inicjacja obiektów
 
 	std::vector<Bullet> bullets(max_bullets, Bullet(textura));  // zmieniłem na vector bo z normalnymi tablicami mi errory wyskakiwały 
-	std::vector<Object> walls(10, Object(textura_sciana)); // jak coś to w " < > " piszesz rodzaj struktury a w nawiasie ( ilość, obiekt)  
+	std::vector<Object> walls(200, Object(textura_sciana)); // jak coś to w " < > " piszesz rodzaj struktury a w nawiasie ( ilość, obiekt)  
 
 	for (int i = 0; i < max_bullets; i++) { // tu masz
 		bullets[i].visible = false;
 		bullets[i].accel = -50.f;
 		bullets[i].sprite.setOrigin({ 8,8 }); // jako że ten sprite jest 16x16 to tu ustawiasz "środek" na 8x8
 	}
+	for (int i = 0; i < 50; i++) {
+		float pos = i * 16.f + 8.0f;//16 pikseli szerokośći oraz środek w pinkcie (8,8)
+		walls[i].sprite.setPosition({ pos, 8.f }); //góra
+		walls[i + 50].sprite.setPosition({ pos, 792.f });//dół
+		walls[i + 100].sprite.setPosition({ 8.f, pos });//lewo
+		walls[i + 150].sprite.setPosition({ 792.f,pos });//prawo
+	}
 
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 200; i++) {
 		walls[i].movable = false;
 		walls[i].sprite.setOrigin({ 8,8 });
-		walls[i].sprite.setPosition({ float(16 * i + 100), float(400) });
+		
 	}
 
 	Object gracz(textura); // tu nazywasz obiekt i piszesz co to za obiekt 
@@ -44,7 +51,7 @@ int main() {
 	Object gracz2(textura);
 	gracz2.accel = -250.f;
 	gracz2.sprite.setOrigin({ 8,8 });
-	gracz2.sprite.setPosition({ 100.f, 100.f });
+	gracz2.sprite.setPosition({ 700.f, 700.f });
 
 	sf::Clock clock; // zegar do mierzenia czasu między klatkami
 	while (window.isOpen()) {   // to spawia że gra działa dopóki okno jest otwarte
@@ -63,12 +70,17 @@ int main() {
 		gracz._physics_process(delta);
 		gracz2._physics_process(delta);
 
+		for (int i = 0; i < max_bullets; i++) {
+			if (bullets[i].visible) {
+				bullets[i]._physics_process(delta);
+			}
+		}
 
 		//KOLIZJE
 		
 		for (int i = 0; i < max_bullets; i++) {
 			if (bullets[i].visible) {
-				for (int j = 0; j < 10; j++) {
+				for (int j = 0; j < 200; j++) {
 					//sprawdzanie, czy zaszła kolizja i pobranie jej obszaru
 					auto pole_kolizji = bullets[i].sprite.getGlobalBounds().findIntersection(walls[j].sprite.getGlobalBounds()); 
 					//zmienna ta przechowuje mały prostokąt, czyli wspolny obszar piłki i ściany gdy zachodzi kolizja
@@ -84,19 +96,22 @@ int main() {
 					}
 				}
 				// kolizja z graczami
+				
 				if (bullets[i].life_time < 2.8f) { //czas ochorny 0,2s
 					if (bullets[i].sprawdzKolizje(gracz)) {
-						gracz.visible = false; bullets[i].visible = false;
+						gracz.visible = false; 
+						bullets[i].visible = false;
 					}
 					if (bullets[i].sprawdzKolizje(gracz2)) {
-						gracz2.visible = false; bullets[i].visible = false;
+						gracz2.visible = false; 
+						bullets[i].visible = false;
 					}
 				}
 			}
 		}
 
 		//blokowanie graczy na ścianach
-		for (int j = 0; j < 10; j++) {
+		for (int j = 0; j < 200; j++) {
 			if (gracz.sprawdzKolizje(walls[j])) {
 				gracz.sprite.move(-gracz.velocity * delta);
 			}
@@ -104,16 +119,16 @@ int main() {
 				gracz2.sprite.move(-gracz2.velocity * delta);
 			}
 		}
+
 		// tu pomiędzy clear() a display() dajemy draw do obiektów bo bez draw nic sie nie wyświetli
 		window.clear();  // czyści okno z poprzedniej klatki
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 200; i++) {
 			if (walls[i].visible) {
 				window.draw(walls[i].sprite);
 			}
 		}
 		for (int i = 0; i < max_bullets; i++) {
 			if (bullets[i].visible) {
-				bullets[i]._physics_process(delta);
 				window.draw(bullets[i].sprite);
 			}
 		}

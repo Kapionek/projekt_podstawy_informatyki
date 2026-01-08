@@ -16,7 +16,7 @@ void Object::_physics_process(float delta) { // ta funcja dzieje siê co klatkê i
 		direction = { 0.f, 0.f }; // jeœli obiekt nie jest ruchomy to stoi w miejscu
 		speed = 0;
 	}
-	if (!max_speed_on) {  // tu jest zwalnianie normalne
+	if (!max_speed_on) {// tu jest zwalnianie normalne
 		if (speed + used_accel * delta > 0.f) {
 			speed += used_accel * delta;
 		}
