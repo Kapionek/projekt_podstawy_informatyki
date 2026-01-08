@@ -21,4 +21,6 @@ struct Object { //podstawowa struktura
 	Object(const sf::Texture& texture) : sprite(texture) {}  // to sprawia ¿e potem mo¿esz napisaæ Object(texture) i to daje texture
 															 // jako texture sprita poprzez sprite(texture) 
 	virtual void _physics_process(float delta);
+
+	bool sprawdzKolizje(const Object& inny);
 };

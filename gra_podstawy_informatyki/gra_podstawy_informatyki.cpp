@@ -62,6 +62,36 @@ int main() {
 		// tu _physic_process()
 		gracz._physics_process(delta);
 		gracz2._physics_process(delta);
+
+
+		//KOLIZJE
+		
+		for (int i = 0; i < max_bullets; i++) {
+			if (bullets[i].visible) {
+				for (int j = 0; j < 10; j++) {
+					if (bullets[i].sprawdzKolizje(walls[j])) {
+						bullets[i].visible = false; //piłka ze ścianą
+					}
+				}
+				// kolizja z graczami
+				if (bullets[i].sprawdzKolizje(gracz)) {
+					gracz.visible = false; bullets[i].visible = false;
+				}
+				if (bullets[i].sprawdzKolizje(gracz2)) {
+					gracz2.visible = false; bullets[i].visible = false;
+				}
+			}
+		}
+
+		//blokowanie graczy na ścianach
+		for (int j = 0; j < 10; j++) {
+			if (gracz.sprawdzKolizje(walls[j])) {
+				gracz.sprite.move(-gracz.velocity * delta);
+			}
+			if (gracz2.sprawdzKolizje(walls[j])) {
+				gracz2.sprite.move(-gracz2.velocity * delta);
+			}
+		}
 		// tu pomiędzy clear() a display() dajemy draw do obiektów bo bez draw nic sie nie wyświetli
 		window.clear();  // czyści okno z poprzedniej klatki
 		for (int i = 0; i < 10; i++) {

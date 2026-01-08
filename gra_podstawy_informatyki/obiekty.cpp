@@ -42,4 +42,13 @@ void Object::_physics_process(float delta) { // ta funcja dzieje siê co klatkê i
 	else {
 		used_accel = accel;
 	}  // tu dla normalnego accel
-};
+}
+bool Object::sprawdzKolizje(const Object& inny) {
+	if (!visible || !inny.visible) {
+		return false; //sprawdzanie czy sprite'y siê dotykaj¹
+	}
+	if (sprite.getGlobalBounds().findIntersection(inny.sprite.getGlobalBounds())) {
+		return true;
+	}
+	return false;
+}
