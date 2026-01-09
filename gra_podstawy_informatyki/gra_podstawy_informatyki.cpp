@@ -28,6 +28,7 @@ int main() {
 		bullets[i].visible = false;
 		bullets[i].accel = -20.f;
 		bullets[i].sprite.setOrigin({ 8,8 }); // jako że ten sprite jest 16x16 to tu ustawiasz "środek" na 8x8
+		bullets[i].max_speed = 500;
 	}
 	for (int i = 0; i < 50; i++) {
 		float pos = i * 16.f + 8.0f;//16 pikseli szerokośći oraz środek w punkcie (8,8)
@@ -47,11 +48,13 @@ int main() {
 	gracz.accel = -250.f;
 	gracz.sprite.setOrigin({ 8,8 });
 	gracz.sprite.setPosition({ 100.f, 100.f });
+	gracz.team = 1;
 
 	Object gracz2(textura);
 	gracz2.accel = -250.f;
 	gracz2.sprite.setOrigin({ 8,8 });
 	gracz2.sprite.setPosition({ 700.f, 700.f });
+	gracz2.team = 2; 
 
 	sf::Clock clock; // zegar do mierzenia czasu między klatkami
 	while (window.isOpen()) {   // to spawia że gra działa dopóki okno jest otwarte
@@ -97,15 +100,13 @@ int main() {
 				}
 				// kolizja z graczami
 				
-				if (bullets[i].life_time < 2.8f) { //czas ochorny 0,2s
-					if (bullets[i].sprawdzKolizje(gracz)) {
-						gracz.visible = false; 
-						bullets[i].visible = false;
-					}
-					if (bullets[i].sprawdzKolizje(gracz2)) {
-						gracz2.visible = false; 
-						bullets[i].visible = false;
-					}
+				if (bullets[i].sprawdzKolizje(gracz) and bullets[i].team != gracz.team) {
+					gracz.visible = false; 
+					bullets[i].visible = false;
+				}
+				if (bullets[i].sprawdzKolizje(gracz2) and bullets[i].team != gracz2.team) {
+					gracz2.visible = false; 
+					bullets[i].visible = false;
 				}
 			}
 		}
@@ -114,9 +115,11 @@ int main() {
 		for (int j = 0; j < 200; j++) {
 			if (gracz.sprawdzKolizje(walls[j])) {
 				gracz.sprite.move(-gracz.velocity * delta);
+				gracz.direction = { 0.f, 0.f };
 			}
 			if (gracz2.sprawdzKolizje(walls[j])) {
 				gracz2.sprite.move(-gracz2.velocity * delta);
+				gracz2.velocity = { 0.f, 0.f };
 			}
 		}
 		//kolizja między 1 a 2 graczem

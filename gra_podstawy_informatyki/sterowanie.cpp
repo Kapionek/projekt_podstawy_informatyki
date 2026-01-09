@@ -45,10 +45,11 @@ void obslugaGracza1(Object& gracz, Bullet bullets[], int max_bullets) {
 			for (int i = 0; i < max_bullets; i++) {	 // tu przechodzi przez wszystkie dostêpne bullety dostêpne 
 				if (bullets[i].visible == false) {
 					bullets[i].visible = true;  // tu zmienia parametry i ustawia dla tego bulleta 
-					bullets[i].sprite.setPosition(gracz.sprite.getPosition()+gracz.last_direction*50.f);
+					bullets[i].sprite.setPosition(gracz.sprite.getPosition() + gracz.last_direction * 4.f);
 					bullets[i].direction = gracz.last_direction;
-					bullets[i].speed = 400.f;
-					bullets[i].life_time = 3.f;
+					bullets[i].speed = 500.f;
+					bullets[i].life_time = 10.f;
+					bullets[i].team = gracz.team;
 					break; // by nie szuka³ dalej
 				}
 			}
@@ -102,10 +103,11 @@ void obslugaGracza2(Object& gracz2, Bullet bullets[], int max_bullets) {
 			for (int i = 0; i < max_bullets; i++) {
 				if (bullets[i].visible == false) {
 					bullets[i].visible = true;
-					bullets[i].sprite.setPosition(gracz2.sprite.getPosition()+gracz2.last_direction * 50.f);
+					bullets[i].sprite.setPosition(gracz2.sprite.getPosition()+gracz2.last_direction * 4.f);
 					bullets[i].direction = gracz2.last_direction;
-					bullets[i].speed = 400.f;
-					bullets[i].life_time = 3.f;
+					bullets[i].speed = 500.f;
+					bullets[i].life_time = 10.f;
+					bullets[i].team = gracz2.team;
 					break;
 				}
 			}
