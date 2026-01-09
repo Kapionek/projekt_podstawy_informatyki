@@ -26,11 +26,11 @@ int main() {
 
 	for (int i = 0; i < max_bullets; i++) { // tu masz
 		bullets[i].visible = false;
-		bullets[i].accel = -50.f;
+		bullets[i].accel = -20.f;
 		bullets[i].sprite.setOrigin({ 8,8 }); // jako że ten sprite jest 16x16 to tu ustawiasz "środek" na 8x8
 	}
 	for (int i = 0; i < 50; i++) {
-		float pos = i * 16.f + 8.0f;//16 pikseli szerokośći oraz środek w pinkcie (8,8)
+		float pos = i * 16.f + 8.0f;//16 pikseli szerokośći oraz środek w punkcie (8,8)
 		walls[i].sprite.setPosition({ pos, 8.f }); //góra
 		walls[i + 50].sprite.setPosition({ pos, 792.f });//dół
 		walls[i + 100].sprite.setPosition({ 8.f, pos });//lewo
@@ -83,7 +83,7 @@ int main() {
 				for (int j = 0; j < 200; j++) {
 					//sprawdzanie, czy zaszła kolizja i pobranie jej obszaru
 					auto pole_kolizji = bullets[i].sprite.getGlobalBounds().findIntersection(walls[j].sprite.getGlobalBounds()); 
-					//zmienna ta przechowuje mały prostokąt, czyli wspolny obszar piłki i ściany gdy zachodzi kolizja
+					//zmienna przechowuje mały prostokąt, czyli wspolny obszar piłki i ściany gdy zachodzi kolizja
 
 					if (pole_kolizji){ //doszło do zderzenia
 						if (pole_kolizji->size.x < pole_kolizji->size.y) { //uderzenie z boku (węższe pole kolizji)
@@ -119,7 +119,41 @@ int main() {
 				gracz2.sprite.move(-gracz2.velocity * delta);
 			}
 		}
+		//kolizja między 1 a 2 graczem
+		//sprawdzanie czy gracze na siebie nachodzą, jeśli tak to tworzy się ich część wspólna
+		auto pole_zderzenia = gracz.sprite.getGlobalBounds().findIntersection(gracz2.sprite.getGlobalBounds());
+		if (pole_zderzenia) {//gracze się zderzyli
+			if (pole_zderzenia->size.x < pole_zderzenia->size.y) {//jeśli prostokąt kolizji jest węższy niż wyższy to zderzyli się poziomo
+				//kolizja pozioma
+				float kierunek;
+				if (gracz.sprite.getPosition().x < gracz2.sprite.getPosition().x) {
+					kierunek = -1.0f; //gracz 1 jest po lewej, więc wypycha w lewo
+				}
+				else {
+					kierunek = 1.0f; //gracz 1 jest z prawej więc wypycha w prawo
+				}
+				gracz.sprite.move({ (pole_zderzenia->size.x / 2.0f) * kierunek,0.0f }); //głębokość zderzenie dzielona na pół i przesunięcie obu w przeciwnych kierunkach
+				gracz2.sprite.move({ (pole_zderzenia->size.x / 2.0f) * -kierunek,0.0f });
 
+				gracz.velocity.x = 0;//zerowanie prędkości w osi poziomej czyli tej w której jest zderzenie w tym przypadku, prędkość y bez zmian
+				gracz2.velocity.x = 0;
+			}
+			else {
+				//kolizja pionowa
+				float kierunek;
+				if (gracz.sprite.getPosition().y < gracz2.sprite.getPosition().y) {
+					kierunek = -1.0f; //gracz 1 jest nad graczem 2, więc wypycha w górę
+				}
+				else {
+					kierunek = 1.0f; //gracz 1 jest pod graczem 2, więc wypycha w dół
+				}
+				gracz.sprite.move({0.0f, (pole_zderzenia->size.y / 2.0f) * kierunek});
+				gracz2.sprite.move({0.0f, (pole_zderzenia->size.y / 2.0f) * -kierunek});
+
+				gracz.velocity.y = 0;
+				gracz2.velocity.y = 0;
+			}
+		}
 		// tu pomiędzy clear() a display() dajemy draw do obiektów bo bez draw nic sie nie wyświetli
 		window.clear();  // czyści okno z poprzedniej klatki
 		for (int i = 0; i < 200; i++) {
