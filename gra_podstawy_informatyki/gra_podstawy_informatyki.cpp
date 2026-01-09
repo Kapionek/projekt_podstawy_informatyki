@@ -117,15 +117,62 @@ int main() {
 			}
 		}
 
-		//blokowanie graczy na ścianach
+		//ślizganie graczy na ścianach
 		for (int j = 0; j < 200; j++) {
-			if (gracz.sprawdzKolizje(walls[j])) {
-				gracz.sprite.move(-gracz.velocity * delta);
-				gracz.direction = { 0.f, 0.f };
+			//kolizje dla 1 gracza
+			auto pole_g1 = gracz.sprite.getGlobalBounds().findIntersection(walls[j].sprite.getGlobalBounds());
+			if (pole_g1) {
+				if (pole_g1->size.x < pole_g1->size.y) {//kolizja pozioma
+					float kierunek;
+					if (gracz.sprite.getPosition().x < walls[j].sprite.getPosition().x) {
+						kierunek = -1.0f; // wypchany w lewo, gdyż gracz jest po lewej stronie ściany
+					}
+					else {
+						kierunek = 1.0f;
+					}
+					gracz.sprite.move({ pole_g1->size.x * kierunek, 0.0f });
+					gracz.velocity.x = 0; //tylko bieg góra/dół
+					gracz2.velocity.y *= 0.8f; //tarcie (spowolnienie)
+				}
+				else {//kolizja pionowa
+					float kierunek;
+					if (gracz.sprite.getPosition().y < walls[j].sprite.getPosition().y) {
+						kierunek = -1.0f; // wypchany w górę, gdyż gracz jest nad ścianą
+					}
+					else {
+						kierunek = 1.0f;
+					}
+					gracz.sprite.move({ 0.0f, pole_g1->size.y * kierunek });
+					gracz.velocity.y = 0; //tylko bieg prawo/lewo
+					gracz2.velocity.x *= 0.8f; //tarcie (spowolnienie)
+				}
 			}
-			if (gracz2.sprawdzKolizje(walls[j])) {
-				gracz2.sprite.move(-gracz2.velocity * delta);
-				gracz2.direction = { 0.f, 0.f };
+			auto pole_g2 = gracz2.sprite.getGlobalBounds().findIntersection(walls[j].sprite.getGlobalBounds());
+			if (pole_g2) {
+				if (pole_g2->size.x < pole_g2->size.y) {//kolizja pozioma
+					float kierunek;
+					if (gracz2.sprite.getPosition().x < walls[j].sprite.getPosition().x) {
+						kierunek = -1.0f; // wypchany w lewo, gdyż gracz jest po prawej stronie ściany
+					}
+					else {
+						kierunek = 1.0f;
+					}
+					gracz2.sprite.move({ pole_g2->size.x * kierunek, 0.0f });
+					gracz2.velocity.x = 0; //tylko bieg góra/dół
+					gracz2.velocity.y *= 0.8f; //tarcie (spowolnienie)
+				}
+				else {//kolizja pionowa
+					float kierunek;
+					if (gracz2.sprite.getPosition().y < walls[j].sprite.getPosition().y) {
+						kierunek = -1.0f; // wypchany w górę, gdyż gracz jest nad ścianą
+					}
+					else {
+						kierunek = 1.0f;
+					}
+					gracz2.sprite.move({ 0.0f, pole_g2->size.y * kierunek });
+					gracz2.velocity.y = 0; //tylko bieg prawo/lewo
+					gracz2.velocity.x *= 0.8f; //tarcie (spowolnienie)
+				}
 			}
 		}
 		//kolizja między 1 a 2 graczem
