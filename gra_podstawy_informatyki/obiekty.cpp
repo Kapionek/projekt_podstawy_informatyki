@@ -1,4 +1,5 @@
 #include "obiekty.h"
+#include <SFML/System/Angle.hpp>
 
 void Object::_physics_process(float delta) { // ta funcja dzieje siê co klatkê i ka¿da struktura moze urzyæ tej funcji 
 	float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);// która jest Object mo¿e mieæ ruch
@@ -42,6 +43,48 @@ void Object::_physics_process(float delta) { // ta funcja dzieje siê co klatkê i
 	else {
 		used_accel = accel;
 	}  // tu dla normalnego accel
+	if (team == 1) {
+		sprite.setColor(sf::Color::Yellow);
+	}
+	if (team == 2) {
+		sprite.setColor(sf::Color::Cyan);
+	}
+	if (rotatable) {
+		if (abs(direction.x) > 0.9f) {
+			if (direction.x > 0) {
+				sprite.setRotation(sf::degrees(0.f));
+			}
+			if (direction.x < 0) {
+				sprite.setRotation(sf::degrees(180.f));
+			}
+		}
+		else if (abs(direction.y) > 0.9f) {
+			if (direction.y > 0) {
+				sprite.setRotation(sf::degrees(90.f));
+			}
+			if (direction.y < 0) {
+				sprite.setRotation(sf::degrees(270.f));
+			}
+		}
+		else if (abs(direction.y) > 0.3 and abs(direction.x) > 0.3) {
+			if (direction.y > 0) {
+				if (direction.x > 0) {
+					sprite.setRotation(sf::degrees(45.f));
+				}
+				if (direction.x < 0) {
+					sprite.setRotation(sf::degrees(135.f));
+				}
+			}
+			if (direction.y < 0) {
+				if (direction.x > 0) {
+					sprite.setRotation(sf::degrees(315.f));
+				}
+				if (direction.x < 0) {
+					sprite.setRotation(sf::degrees(225.f));
+				}
+			}
+		}
+	}
 }
 bool Object::sprawdzKolizje(const Object& inny) {
 	if (!visible || !inny.visible) {

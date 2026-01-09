@@ -15,7 +15,11 @@ int main() {
 		return -1;
 	}  // ogólnie to do każdej textury robimy dokładnie to samo tylko zmieniasz nazwę i ścierzkę do pliku 
 	sf::Texture textura_sciana;
-	if (!textura_sciana.loadFromFile("textury/sciana2.png")) {
+	if (!textura_sciana.loadFromFile("textury/sciana.png")) {
+		return -1;
+	}
+	sf::Texture textura_gracz;
+	if (!textura_gracz.loadFromFile("textury/gracz.png")) {
 		return -1;
 	}
 
@@ -44,17 +48,19 @@ int main() {
 		
 	}
 
-	Object gracz(textura); // tu nazywasz obiekt i piszesz co to za obiekt 
+	Object gracz(textura_gracz); // tu nazywasz obiekt i piszesz co to za obiekt 
 	gracz.accel = -250.f;
 	gracz.sprite.setOrigin({ 8,8 });
 	gracz.sprite.setPosition({ 100.f, 100.f });
 	gracz.team = 1;
+	gracz.rotatable = true;
 
-	Object gracz2(textura);
+	Object gracz2(textura_gracz);
 	gracz2.accel = -250.f;
 	gracz2.sprite.setOrigin({ 8,8 });
 	gracz2.sprite.setPosition({ 700.f, 700.f });
 	gracz2.team = 2; 
+	gracz2.rotatable = true;
 
 	sf::Clock clock; // zegar do mierzenia czasu między klatkami
 	while (window.isOpen()) {   // to spawia że gra działa dopóki okno jest otwarte
@@ -119,7 +125,7 @@ int main() {
 			}
 			if (gracz2.sprawdzKolizje(walls[j])) {
 				gracz2.sprite.move(-gracz2.velocity * delta);
-				gracz2.velocity = { 0.f, 0.f };
+				gracz2.direction = { 0.f, 0.f };
 			}
 		}
 		//kolizja między 1 a 2 graczem

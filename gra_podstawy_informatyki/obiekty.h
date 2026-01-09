@@ -14,6 +14,7 @@ struct Object { //podstawowa struktura
 	float used_accel = -250.f;  // aktualny accel
 	float dash_cooldown = 0.f;
 	float shot_cooldown = 0.f;
+	bool rotatable = false;
 	bool movable = true;
 	bool max_speed_on = false;
 	bool visible = true;
