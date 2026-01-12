@@ -3,13 +3,18 @@
 #include "obiekty.h"
 #include "bullet.h"
 #include "sterowanie.h"
+#include "zycie.h"
 
 int main() {
-	sf::RenderWindow window(sf::VideoMode({ 800,800 }), "Zbijak");  // tworzy okno w {} jest rozmiar, "Zbijak" wyświetla się na górze okienka
+	sf::RenderWindow window(sf::VideoMode({ 800,808 }), "Zbijak");  // tworzy okno w {} jest rozmiar, "Zbijak" wyświetla się na górze okienka
 	const int max_bullets = 10; // const jest potrzebny do tablicy  
 
 	// inicjacja textur (musmy je zainicjować wcześniej bo SFML musi mieć textury wcześniej 
 
+	sf::Texture textura_zycie;
+	if (!textura_zycie.loadFromFile("textury/zycie.png")) {
+		return -1;
+	}
 	sf::Texture textura;    // tu jest ładowanie textur 
 	if (!textura.loadFromFile("textury/pilka.png")) {
 		return -1;
@@ -27,6 +32,7 @@ int main() {
 
 	std::vector<Bullet> bullets(max_bullets, Bullet(textura));  // zmieniłem na vector bo z normalnymi tablicami mi errory wyskakiwały 
 	std::vector<Object> walls(200, Object(textura_sciana)); // jak coś to w " < > " piszesz rodzaj struktury a w nawiasie ( ilość, obiekt)  
+	std::vector<Zycie> zycia(6, Zycie(textura_zycie));
 
 	for (int i = 0; i < max_bullets; i++) { // tu masz
 		bullets[i].visible = false;
@@ -36,10 +42,10 @@ int main() {
 	}
 	for (int i = 0; i < 50; i++) {
 		float pos = i * 16.f + 8.0f;//16 pikseli szerokośći oraz środek w punkcie (8,8)
-		walls[i].sprite.setPosition({ pos, 8.f }); //góra
-		walls[i + 50].sprite.setPosition({ pos, 792.f });//dół
-		walls[i + 100].sprite.setPosition({ 8.f, pos });//lewo
-		walls[i + 150].sprite.setPosition({ 792.f,pos });//prawo
+		walls[i].sprite.setPosition({ pos, 16.f }); //góra
+		walls[i + 50].sprite.setPosition({ pos, 800.f });//dół
+		walls[i + 100].sprite.setPosition({ 8.f, pos + 8});//lewo
+		walls[i + 150].sprite.setPosition({ 792.f,pos + 8});//prawo
 	}
 
 	for (int i = 0; i < 200; i++) {
@@ -50,17 +56,37 @@ int main() {
 
 	Object gracz(textura_gracz); // tu nazywasz obiekt i piszesz co to za obiekt 
 	gracz.accel = -250.f;
-	gracz.sprite.setOrigin({ 8,8 });
+	gracz.sprite.setOrigin({ 10,10 });
 	gracz.sprite.setPosition({ 100.f, 100.f });
 	gracz.team = 1;
 	gracz.rotatable = true;
+	gracz.damagable = true;
 
 	Object gracz2(textura_gracz);
 	gracz2.accel = -250.f;
-	gracz2.sprite.setOrigin({ 8,8 });
+	gracz2.sprite.setOrigin({ 10,10 });
 	gracz2.sprite.setPosition({ 700.f, 700.f });
 	gracz2.team = 2; 
 	gracz2.rotatable = true;
+	gracz2.damagable = true;
+
+	for (int i = 0; i < 6; i++) {
+		zycia[i].movable = false;
+		zycia[i].sprite.setOrigin({ 4,4 });
+		float pos = i * 8.f + 4.f;
+		if (i < 3) {
+			zycia[i].sprite.setPosition({ pos, 4.f });
+			zycia[i].team = 1;
+			zycia[i].gracz = &gracz;
+			zycia[i].id = i;
+		}
+		else {
+			zycia[i].sprite.setPosition({ pos + 752, 4.f });
+			zycia[i].team = 2;
+			zycia[i].gracz = &gracz2;
+			zycia[i].id = i - 3;
+		}
+	}
 
 	sf::Clock clock; // zegar do mierzenia czasu między klatkami
 	while (window.isOpen()) {   // to spawia że gra działa dopóki okno jest otwarte
@@ -83,6 +109,10 @@ int main() {
 			if (bullets[i].visible) {
 				bullets[i]._physics_process(delta);
 			}
+		}
+		
+		for (int i = 0; i < 6; i++) {
+			zycia[i]._physics_process(delta);
 		}
 
 		//KOLIZJE
@@ -107,11 +137,11 @@ int main() {
 				// kolizja z graczami
 				
 				if (bullets[i].sprawdzKolizje(gracz) and bullets[i].team != gracz.team) {
-					gracz.visible = false; 
+					gracz.health -= 1; 
 					bullets[i].visible = false;
 				}
 				if (bullets[i].sprawdzKolizje(gracz2) and bullets[i].team != gracz2.team) {
-					gracz2.visible = false; 
+					gracz2.health -= 1;
 					bullets[i].visible = false;
 				}
 			}
@@ -220,6 +250,11 @@ int main() {
 		for (int i = 0; i < max_bullets; i++) {
 			if (bullets[i].visible) {
 				window.draw(bullets[i].sprite);
+			}
+		}
+		for (int i = 0; i < 6; i++) {
+			if (zycia[i].visible) {
+				window.draw(zycia[i].sprite);
 			}
 		}
 		if (gracz.visible) {

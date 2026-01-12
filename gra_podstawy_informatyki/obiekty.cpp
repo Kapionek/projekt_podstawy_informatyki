@@ -49,6 +49,11 @@ void Object::_physics_process(float delta) { // ta funcja dzieje siê co klatkê i
 	if (team == 2) {
 		sprite.setColor(sf::Color::Cyan);
 	}
+	if (damagable) {
+		if (health <= 0) {
+			visible = false;
+		}
+	}
 	if (rotatable) {
 		if (abs(direction.x) > 0.9f) {
 			if (direction.x > 0) {
