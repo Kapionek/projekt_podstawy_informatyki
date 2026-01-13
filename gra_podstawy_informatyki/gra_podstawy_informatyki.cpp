@@ -96,6 +96,7 @@ int main() {
 	gracz.team = 1;
 	gracz.rotatable = true;
 	gracz.damagable = true;
+	gracz.buffable = true;
 
 	Object gracz2(textura_gracz);
 	gracz2.accel = -250.f;
@@ -104,6 +105,7 @@ int main() {
 	gracz2.team = 2; 
 	gracz2.rotatable = true;
 	gracz2.damagable = true;
+	gracz2.buffable = true;
 
 	Object speedup(textura_speed_buff);
 	speedup.sprite.setPosition({ 400.f,500.f });
@@ -320,56 +322,51 @@ int main() {
 				gracz2.velocity.y = 0;
 			}
 		}
-
-		//gracz1 z przyśpieszeniem
-		if (gracz.sprawdzKolizje(speedup)) {
-			gracz.max_speed = 300.f;
-			gracz.powerup_time = 3.f;
-			speedup.visible = false;
-		}
-		//gracz2 z przyśpieszeniem
-		if (gracz2.sprawdzKolizje(speedup)) {
-			gracz2.max_speed = 300.f;
-			gracz2.powerup_time = 3.f;
-			speedup.visible = false;
-		}
-		//gracz1 ze spowolnieniem
-		if (gracz.sprawdzKolizje(slowdown)) {
-			gracz.max_speed = 60.f;
-			gracz.powerup_time = 3.f;
-			slowdown.visible = false;
-		}
-		//gracz2 ze spowolnieniem
-		if (gracz2.sprawdzKolizje(slowdown)) {
-			gracz2.max_speed = 60.f;
-			gracz2.powerup_time = 3.f;
-			slowdown.visible = false;
-		}
-		//gracz1 z powiększniem kulki
-		if (gracz.sprawdzKolizje(big_ball)) {
-			gracz.big_ball = true;
-			gracz.powerup_time = 5.f;
-			big_ball.visible = false;
-		}
-		//gracz2 z powiększniem kulki
-		if (gracz2.sprawdzKolizje(big_ball)) {
-			gracz2.big_ball = true;
-			gracz2.powerup_time = 5.f;
-			big_ball.visible = false;
-		}
-		//gracz 1 z podwójnym strzałem
-		if (pdouble.visible) {
-			if (gracz.sprawdzKolizje(pdouble)) {
-				gracz.double_shot = true;
-				gracz.powerup_time = 10.f;
-				pdouble.visible = false;
+		if (speedup.visible) {
+			//gracz1 z przyśpieszeniem
+			if (gracz.sprawdzKolizje(speedup)) {
+				speedup.visible = false;
+				gracz.apply_buffs(0);
+			}
+			//gracz2 z przyśpieszeniem
+			if (gracz2.sprawdzKolizje(speedup)) {
+				speedup.visible = false;
+				gracz2.apply_buffs(0);
 			}
 		}
-		//gracz 2 z podwójnym strzałem
+		if (slowdown.visible) {
+			//gracz1 ze spowolnieniem
+			if (gracz.sprawdzKolizje(slowdown)) {
+				gracz.apply_buffs(1);
+				slowdown.visible = false;
+			}
+			//gracz2 ze spowolnieniem
+			if (gracz2.sprawdzKolizje(slowdown)) {
+				gracz2.apply_buffs(1);
+				slowdown.visible = false;
+			}
+		}
+		if (big_ball.visible) {
+			//gracz1 z powiększniem kulki
+			if (gracz.sprawdzKolizje(big_ball)) {
+				gracz.apply_buffs(2);
+				big_ball.visible = false;
+			}
+			//gracz2 z powiększniem kulki
+			if (gracz2.sprawdzKolizje(big_ball)) {
+				gracz2.apply_buffs(2);
+				big_ball.visible = false;
+			}
+		}
 		if (pdouble.visible) {
+			//gracz 1 z podwójnym strzałem
+			if (gracz.sprawdzKolizje(pdouble)) {
+				gracz.apply_buffs(3);
+				pdouble.visible = false;
+			}
+		//gracz 2 z podwójnym strzałem
 			if (gracz2.sprawdzKolizje(pdouble)) {
-				gracz2.double_shot = true;
-				gracz2.powerup_time = 10.f;
+				gracz2.apply_buffs(3);
 				pdouble.visible = false;
 			}
 		}

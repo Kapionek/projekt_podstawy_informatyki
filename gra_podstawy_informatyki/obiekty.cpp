@@ -56,51 +56,140 @@ void Object::_physics_process(float delta) { // ta funcja dzieje siê co klatkê i
 		}
 	}
 	if (rotatable) {
-		if (abs(direction.x) > 0.9f) {
-			if (direction.x > 0) {
-				sprite.setRotation(sf::degrees(0.f));
-			}
-			if (direction.x < 0) {
-				sprite.setRotation(sf::degrees(180.f));
-			}
-		}
-		else if (abs(direction.y) > 0.9f) {
-			if (direction.y > 0) {
-				sprite.setRotation(sf::degrees(90.f));
-			}
-			if (direction.y < 0) {
-				sprite.setRotation(sf::degrees(270.f));
-			}
-		}
-		else if (abs(direction.y) > 0.3 and abs(direction.x) > 0.3) {
-			if (direction.y > 0) {
-				if (direction.x > 0) {
-					sprite.setRotation(sf::degrees(45.f));
-				}
-				if (direction.x < 0) {
-					sprite.setRotation(sf::degrees(135.f));
-				}
-			}
-			if (direction.y < 0) {
-				if (direction.x > 0) {
-					sprite.setRotation(sf::degrees(315.f));
-				}
-				if (direction.x < 0) {
-					sprite.setRotation(sf::degrees(225.f));
-				}
-			}
-		}
+		rotations();
 	}
-	if (powerup_time > 0.f) {
-		powerup_time -= delta;
-	}
-	else {
-		max_speed = normal_speed;
-		powerup_time = 0.f;
-		big_ball = false;
-		double_shot = false;
+	if (buffable) {
+		update_buffs(delta);
 	}
 }
+void Object::update_buffs(float delta) {
+	if (speed_buff_time - delta > 0.f) {
+		speed_buff_time -= delta;
+	}
+	else {
+		if (speedy) {
+			remove_buffs(0);
+		}
+		speed_buff_time = 0.f;
+	}
+	if (slow_buff_time - delta > 0.f) {
+		slow_buff_time -= delta;
+	}
+	else {
+		if (slowy) {
+			remove_buffs(1);
+		}
+		slow_buff_time = 0.f;
+	}
+	if (big_ball_time - delta > 0.f) {
+		big_ball_time -= delta;
+	}
+	else {
+		if (big_ball) {
+			remove_buffs(2);
+		}
+		big_ball_time = 0.f;
+	}
+	if (multishot_time - delta > 0.f) {
+		multishot_time -= delta;
+	}
+	else {
+		if (multishot) {
+			remove_buffs(3);
+		}
+		multishot_time = 0.f;
+	}
+}
+
+void Object::remove_buffs(int rodzaj) {
+	if (!buffable) {
+		return;
+	}
+	switch (rodzaj) {
+	case 0:
+		speed_buff_time = 3.f;
+		max_speed -= 100;
+		speedy = false;
+		break;
+	case 1:
+		slow_buff_time = 3.f;
+		max_speed += 100;
+		slowy = false;
+		break;
+	case 2:
+		big_ball_time = 5.f;
+		big_ball = false;
+		break;
+	case 3:
+		multishot_time = 10.f;
+		multishot = false;
+		break;
+	}
+}
+
+void Object::apply_buffs(int rodzaj) {
+	if (!buffable) {
+		return;
+	}
+	switch (rodzaj) {
+	case 0:
+		speed_buff_time = 3.f;
+		max_speed += 100;
+		speedy = true;
+		break;
+	case 1:
+		slow_buff_time = 3.f;
+		max_speed -= 100;
+		slowy = true;
+		break;
+	case 2:
+		big_ball_time = 5.f;
+		big_ball = true;
+		break;
+	case 3:
+		multishot_time = 10.f;
+		multishot = true;
+		break;
+	}
+}
+
+void Object::rotations() {
+	if (abs(direction.x) > 0.9f) {
+		if (direction.x > 0) {
+			sprite.setRotation(sf::degrees(0.f));
+		}
+		if (direction.x < 0) {
+			sprite.setRotation(sf::degrees(180.f));
+		}
+	}
+	else if (abs(direction.y) > 0.9f) {
+		if (direction.y > 0) {
+			sprite.setRotation(sf::degrees(90.f));
+		}
+		if (direction.y < 0) {
+			sprite.setRotation(sf::degrees(270.f));
+		}
+	}
+	else if (abs(direction.y) > 0.3 and abs(direction.x) > 0.3) {
+		if (direction.y > 0) {
+			if (direction.x > 0) {
+				sprite.setRotation(sf::degrees(45.f));
+			}
+			if (direction.x < 0) {
+				sprite.setRotation(sf::degrees(135.f));
+			}
+		}
+		if (direction.y < 0) {
+			if (direction.x > 0) {
+				sprite.setRotation(sf::degrees(315.f));
+			}
+			if (direction.x < 0) {
+				sprite.setRotation(sf::degrees(225.f));
+			}
+		}
+	}
+}
+
 bool Object::sprawdzKolizje(const Object& inny) {
 	if (!visible || !inny.visible) {
 		return false; //sprawdzanie czy sprite'y siê dotykaj¹

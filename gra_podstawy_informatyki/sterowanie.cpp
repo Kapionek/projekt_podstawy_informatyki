@@ -34,7 +34,7 @@ void obslugaGracza1(Object& gracz, Bullet bullets[], int max_bullets) {
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::E)) {  // tu jest dash 
 		if (gracz.dash_cooldown <= 0.f) {
-			gracz.speed *= 3.f;
+			gracz.speed = 3.f* gracz.max_speed;
 			gracz.dash_cooldown = 0.5;
 			gracz.direction = gracz.last_direction; // u¿ywa last direction by mo¿na by³o dashowaæ jak sie stoi
 		}
@@ -43,7 +43,7 @@ void obslugaGracza1(Object& gracz, Bullet bullets[], int max_bullets) {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Q)) {  //strza³ pi³k¹ 
 		if (gracz.shot_cooldown <= 0.f) {
 			int ile_pociskow;
-			if (gracz.double_shot == true) {
+			if (gracz.multishot == true) {
 				ile_pociskow = 2; //z bonusme strza³ 2 razy
 			}
 			else {
@@ -119,7 +119,7 @@ void obslugaGracza2(Object& gracz2, Bullet bullets[], int max_bullets) {
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::O)) {
 		if (gracz2.dash_cooldown <= 0.f) {
-			gracz2.speed *= 3.f;
+			gracz2.speed = 3.f * gracz2.max_speed;
 			gracz2.dash_cooldown = 0.5;
 			gracz2.direction = gracz2.last_direction;
 		}
@@ -128,7 +128,7 @@ void obslugaGracza2(Object& gracz2, Bullet bullets[], int max_bullets) {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::U)) {
 		if (gracz2.shot_cooldown <= 0.f) {
 			int ile_pociskow;
-			if (gracz2.double_shot == true) {
+			if (gracz2.multishot == true) {
 				ile_pociskow = 2; //z bonusme strza³ 2 razy
 			}
 			else {
