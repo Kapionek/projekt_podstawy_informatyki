@@ -108,7 +108,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\kapis\source\repos\gra_podstawy_informatyki\SFML-3.0.2-windows-vc17-64-bit\SFML-3.0.2\lib;C:\Users\wojru\source\repos\projekt_podstawy_informatyki\SFML-3.0.2-windows-vc17-64-bit\SFML-3.0.2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\antor\projekt\projekt_podstawy_informatyki\SFML-3.0.2-windows-vc17-64-bit\SFML-3.0.2/lib;C:\Users\antor\projekt\projekt_podstawy_informatyki\SFML-3.0.2-windows-vc17-64-bit\SFML-3.0.2;C:\Users\kapis\source\repos\gra_podstawy_informatyki\SFML-3.0.2-windows-vc17-64-bit\SFML-3.0.2\lib;C:\Users\wojru\source\repos\projekt_podstawy_informatyki\SFML-3.0.2-windows-vc17-64-bit\SFML-3.0.2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -127,7 +127,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Users\kapis\source\repos\gra_podstawy_informatyki\SFML-3.0.2-windows-vc17-64-bit\SFML-3.0.2\lib;C:\Users\wojru\source\repos\projekt_podstawy_informatyki\SFML-3.0.2-windows-vc17-64-bit\SFML-3.0.2\lib;C:\Users\kapis\source\repos\gra_podstawy_informatyki\SFML-3.0.2-windows-vc17-64-bit\SFML-3.0.2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\antor\projekt\projekt_podstawy_informatyki\SFML-3.0.2-windows-vc17-64-bit\SFML-3.0.2/lib;C:\Users\kapis\source\repos\gra_podstawy_informatyki\SFML-3.0.2-windows-vc17-64-bit\SFML-3.0.2\lib;C:\Users\wojru\source\repos\projekt_podstawy_informatyki\SFML-3.0.2-windows-vc17-64-bit\SFML-3.0.2\lib;C:\Users\kapis\source\repos\gra_podstawy_informatyki\SFML-3.0.2-windows-vc17-64-bit\SFML-3.0.2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

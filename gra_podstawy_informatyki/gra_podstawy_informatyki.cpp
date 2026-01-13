@@ -151,6 +151,8 @@ int main() {
 	}
 
 	sf::Clock clock; // zegar do mierzenia czasu między klatkami
+	float respawn_timer = 0.f; //licznik czasu do odrodzenia bonusów
+	float respawn_time_limit = 10.f; //wracanie bonusów
 	while (window.isOpen()) {   // to spawia że gra działa dopóki okno jest otwarte
 
 
@@ -174,6 +176,25 @@ int main() {
 
 		sf::Time timer = clock.restart(); // sf::Time - to jest wynik // mierzy czas między klatkami
 		float delta = timer.asSeconds();
+
+		//Respawn bonusów
+		respawn_timer += delta;
+		if (respawn_timer >= respawn_time_limit) {
+			//sprawdzanie każdego bonusu
+			if (speedup.visible == false) {
+				speedup.visible = true;
+			}
+			if (slowdown.visible == false) {
+				slowdown.visible = true;
+			}
+			if (big_ball.visible == false) {
+				big_ball.visible = true;
+			}
+			if (pdouble.visible == false) {
+				pdouble.visible = true;
+			}
+			respawn_timer = 0.f; //reset licznika po każdej próbie odrodzenia
+		}
 
 		while (const std::optional event = window.pollEvent()) { // sparawdza czy zaszło jakieś zdarzenie (np. kliknięcie krzyżyka)
 			if (event->is<sf::Event::Closed>())
