@@ -90,6 +90,14 @@ void Object::_physics_process(float delta) { // ta funcja dzieje siê co klatkê i
 			}
 		}
 	}
+	if (powerup_time > 0.f) {
+		powerup_time -= delta;
+	}
+	else {
+		max_speed = normal_speed;
+		powerup_time = 0.f;
+		big_ball = false;
+	}
 }
 bool Object::sprawdzKolizje(const Object& inny) {
 	if (!visible || !inny.visible) {

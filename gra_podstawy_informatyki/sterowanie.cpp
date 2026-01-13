@@ -50,6 +50,13 @@ void obslugaGracza1(Object& gracz, Bullet bullets[], int max_bullets) {
 					bullets[i].speed = 500.f;
 					bullets[i].life_time = 10.f;
 					bullets[i].team = gracz.team;
+					//Powiêksznie pi³ki
+					if (gracz.big_ball) {
+						bullets[i].sprite.setScale({ 2.0f,2.0f });
+					}
+					else {
+						bullets[i].sprite.setScale({ 1.0f, 1.0f });
+					}
 					break; // by nie szuka³ dalej
 				}
 			}
@@ -108,6 +115,13 @@ void obslugaGracza2(Object& gracz2, Bullet bullets[], int max_bullets) {
 					bullets[i].speed = 500.f;
 					bullets[i].life_time = 10.f;
 					bullets[i].team = gracz2.team;
+					//Powiêksznie pi³ki
+					if (gracz2.big_ball) {
+						bullets[i].sprite.setScale({ 2.0f,2.0f });
+					}
+					else {
+						bullets[i].sprite.setScale({ 1.0f, 1.0f });
+					}
 					break;
 				}
 			}

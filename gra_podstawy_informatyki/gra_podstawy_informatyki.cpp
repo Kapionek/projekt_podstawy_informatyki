@@ -70,6 +70,21 @@ int main() {
 	gracz2.rotatable = true;
 	gracz2.damagable = true;
 
+	Object speedup(textura);
+	speedup.sprite.setPosition({ 400.f,400.f });
+	speedup.sprite.setColor(sf::Color::Green);
+	speedup.visible = true;
+
+	Object slowdown(textura);
+	slowdown.sprite.setPosition({ 200.f,200.f });
+	slowdown.sprite.setColor(sf::Color::Blue);
+	slowdown.visible = true;
+
+	Object big_ball(textura);
+	big_ball.sprite.setPosition({ 400.f,200.f });
+	big_ball.sprite.setColor(sf::Color::Yellow);
+	big_ball.visible = true;
+
 	for (int i = 0; i < 6; i++) {
 		zycia[i].movable = false;
 		zycia[i].sprite.setOrigin({ 4,4 });
@@ -162,7 +177,7 @@ int main() {
 					}
 					gracz.sprite.move({ pole_g1->size.x * kierunek, 0.0f });
 					gracz.velocity.x = 0; //tylko bieg góra/dół
-					gracz2.velocity.y *= 0.8; //tarcie (spowolnienie)
+					gracz.velocity.y *= 0.8; //tarcie (spowolnienie)
 				}
 				else {//kolizja pionowa
 					float kierunek;
@@ -174,7 +189,7 @@ int main() {
 					}
 					gracz.sprite.move({ 0.0f, pole_g1->size.y * kierunek });
 					gracz.velocity.y = 0; //tylko bieg prawo/lewo
-					gracz2.velocity.x *= 0.8f; //tarcie (spowolnienie)
+					gracz.velocity.x *= 0.8f; //tarcie (spowolnienie)
 				}
 			}
 			auto pole_g2 = gracz2.sprite.getGlobalBounds().findIntersection(walls[j].sprite.getGlobalBounds());
@@ -240,6 +255,43 @@ int main() {
 				gracz2.velocity.y = 0;
 			}
 		}
+
+		//gracz1 z przyśpieszeniem
+		if (gracz.sprawdzKolizje(speedup)) {
+			gracz.max_speed = 300.f;
+			gracz.powerup_time = 3.f;
+			speedup.visible = false;
+		}
+		//gracz2 z przyśpieszeniem
+		if (gracz2.sprawdzKolizje(speedup)) {
+			gracz2.max_speed = 300.f;
+			gracz2.powerup_time = 3.f;
+			speedup.visible = false;
+		}
+		//gracz1 ze spowolnieniem
+		if (gracz.sprawdzKolizje(slowdown)) {
+			gracz.max_speed = 60.f;
+			gracz.powerup_time = 3.f;
+			slowdown.visible = false;
+		}
+		//gracz2 ze spowolnieniem
+		if (gracz2.sprawdzKolizje(slowdown)) {
+			gracz2.max_speed = 60.f;
+			gracz2.powerup_time = 3.f;
+			slowdown.visible = false;
+		}
+		//gracz1 z powiększniem kulki
+		if (gracz.sprawdzKolizje(big_ball)) {
+			gracz.big_ball = true;
+			gracz.powerup_time = 5.f;
+			big_ball.visible = false;
+		}
+		//gracz2 z powiększniem kulki
+		if (gracz2.sprawdzKolizje(big_ball)) {
+			gracz2.big_ball = true;
+			gracz2.powerup_time = 5.f;
+			big_ball.visible = false;
+		}
 		// tu pomiędzy clear() a display() dajemy draw do obiektów bo bez draw nic sie nie wyświetli
 		window.clear();  // czyści okno z poprzedniej klatki
 		for (int i = 0; i < 200; i++) {
@@ -262,6 +314,15 @@ int main() {
 		}
 		if (gracz2.visible) {
 			window.draw(gracz2.sprite);
+		}
+		if (speedup.visible) {
+			window.draw(speedup.sprite);
+		}
+		if (slowdown.visible) {
+			window.draw(slowdown.sprite);
+		}
+		if (big_ball.visible) {
+			window.draw(big_ball.sprite);
 		}
 		window.display(); // wyświetla zawartość okna
 	}
