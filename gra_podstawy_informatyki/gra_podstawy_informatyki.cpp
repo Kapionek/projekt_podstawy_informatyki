@@ -56,7 +56,7 @@ int main() {
 	// inicjacja obiektów
 
 	std::vector<Bullet> bullets(max_bullets, Bullet(textura));  // zmieniłem na vector bo z normalnymi tablicami mi errory wyskakiwały 
-	std::vector<Object> walls(200, Object(textura_sciana)); // jak coś to w " < > " piszesz rodzaj struktury a w nawiasie ( ilość, obiekt)  
+	std::vector<Object> walls(250, Object(textura_sciana)); // jak coś to w " < > " piszesz rodzaj struktury a w nawiasie ( ilość, obiekt)  
 	std::vector<Zycie> zycia(6, Zycie(textura_zycie));
 
 	for (int i = 0; i < max_bullets; i++) { // tu masz
@@ -74,7 +74,13 @@ int main() {
 		walls[i + 150].sprite.setPosition({ 792.f,pos + 8});//prawo
 	}
 
-	for (int i = 0; i < 200; i++) {
+	for (int i = 0; i < 25; i++) {
+		float offset = i * 16.f;
+		walls[i + 200].sprite.setPosition({ 200.f + offset, 200.f });
+		walls[i + 225].sprite.setPosition({ 200.f + offset, 600.f });
+	}
+
+	for (int i = 0; i < 250; i++) {
 		walls[i].movable = false;
 		walls[i].sprite.setOrigin({ 8,8 });
 		
@@ -100,22 +106,26 @@ int main() {
 	gracz2.damagable = true;
 
 	Object speedup(textura_speed_buff);
-	speedup.sprite.setPosition({ 400.f,400.f });
+	speedup.sprite.setPosition({ 400.f,500.f });
+	speedup.sprite.setOrigin({ 8,8 });
 	speedup.sprite.setColor(sf::Color::Green);
 	speedup.visible = true;
 
 	Object slowdown(textura_speed_debuff);
-	slowdown.sprite.setPosition({ 200.f,200.f });
+	slowdown.sprite.setPosition({ 200.f,300.f });
+	slowdown.sprite.setOrigin({ 8,8 });
 	slowdown.sprite.setColor(sf::Color::Red);
 	slowdown.visible = true;
 
 	Object big_ball(textura_big_ball);
-	big_ball.sprite.setPosition({ 400.f,200.f });
+	big_ball.sprite.setPosition({ 400.f,300.f });
+	big_ball.sprite.setOrigin({ 8,8 });
 	big_ball.sprite.setColor(sf::Color::Green);
 	big_ball.visible = true;
 
 	Object pdouble(textura_multishot);
-	pdouble.sprite.setPosition({ 600.f, 400.f });
+	pdouble.sprite.setPosition({ 600.f, 500.f });
+	pdouble.sprite.setOrigin({ 8,8 });
 	pdouble.sprite.setColor(sf::Color::Red);
 	pdouble.visible = true;
 
@@ -189,7 +199,7 @@ int main() {
 		
 		for (int i = 0; i < max_bullets; i++) {
 			if (bullets[i].visible) {
-				for (int j = 0; j < 200; j++) {
+				for (int j = 0; j < 250; j++) {
 					//sprawdzanie, czy zaszła kolizja i pobranie jej obszaru
 					auto pole_kolizji = bullets[i].sprite.getGlobalBounds().findIntersection(walls[j].sprite.getGlobalBounds()); 
 					//zmienna przechowuje mały prostokąt, czyli wspolny obszar piłki i ściany gdy zachodzi kolizja
@@ -218,7 +228,7 @@ int main() {
 		}
 
 		//ślizganie graczy na ścianach
-		for (int j = 0; j < 200; j++) {
+		for (int j = 0; j < 250; j++) {
 			//kolizje dla 1 gracza
 			auto pole_g1 = gracz.sprite.getGlobalBounds().findIntersection(walls[j].sprite.getGlobalBounds());
 			if (pole_g1) {
@@ -365,7 +375,7 @@ int main() {
 		}
 		// tu pomiędzy clear() a display() dajemy draw do obiektów bo bez draw nic sie nie wyświetli
 		window.clear();  // czyści okno z poprzedniej klatki
-		for (int i = 0; i < 200; i++) {
+		for (int i = 0; i < 250; i++) {
 			if (walls[i].visible) {
 				window.draw(walls[i].sprite);
 			}
