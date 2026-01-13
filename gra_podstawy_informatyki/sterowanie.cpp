@@ -34,7 +34,7 @@ void obslugaGracza1(Object& gracz, Bullet bullets[], int max_bullets) {
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::E)) {  // tu jest dash 
 		if (gracz.dash_cooldown <= 0.f) {
-			gracz.speed = 350.f;
+			gracz.speed *= 3.f;
 			gracz.dash_cooldown = 0.5;
 			gracz.direction = gracz.last_direction; // u¿ywa last direction by mo¿na by³o dashowaæ jak sie stoi
 		}
@@ -56,6 +56,7 @@ void obslugaGracza1(Object& gracz, Bullet bullets[], int max_bullets) {
 					bullets[i].sprite.setPosition(gracz.sprite.getPosition() + gracz.last_direction * 4.f);
 					bullets[i].direction = gracz.last_direction;
 					bullets[i].speed = 500.f;
+					bullets[i].normal_speed = 500.f;
 					bullets[i].life_time = 10.f;
 					bullets[i].team = gracz.team;
 					//ustalnienie kierunku
@@ -118,7 +119,7 @@ void obslugaGracza2(Object& gracz2, Bullet bullets[], int max_bullets) {
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::O)) {
 		if (gracz2.dash_cooldown <= 0.f) {
-			gracz2.speed = 350.f;
+			gracz2.speed *= 3.f;
 			gracz2.dash_cooldown = 0.5;
 			gracz2.direction = gracz2.last_direction;
 		}
@@ -140,6 +141,7 @@ void obslugaGracza2(Object& gracz2, Bullet bullets[], int max_bullets) {
 					bullets[i].sprite.setPosition(gracz2.sprite.getPosition()+gracz2.last_direction * 4.f);
 					bullets[i].direction = gracz2.last_direction;
 					bullets[i].speed = 500.f;
+					bullets[i].normal_speed = 500.f;
 					bullets[i].life_time = 10.f;
 					bullets[i].team = gracz2.team;
 					bullets[i].team = gracz2.team;

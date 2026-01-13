@@ -12,6 +12,7 @@ void Object::_physics_process(float delta) { // ta funcja dzieje siê co klatkê i
 		velocity.y = direction.y * speed; // tu liczy siê prêdkoœæ
 		velocity.x = direction.x * speed;
 		sprite.move(velocity * delta);
+		hard_accel = -5 * max_speed;
 	}
 	else {
 		direction = { 0.f, 0.f }; // jeœli obiekt nie jest ruchomy to stoi w miejscu

@@ -19,11 +19,11 @@ Menu::Menu(sf::RenderWindow& window, std::vector<Object>& walls)
     //Konfiguracja tekstów 
     playText.setString("GRAJ");
     playText.setCharacterSize(48);
-    playText.setPosition({ 300.f, 300.f });
+    playText.setPosition({ 338.f, 300.f });
 
     exitText.setString("WYJDZ");
     exitText.setCharacterSize(48);
-    exitText.setPosition({ 300.f, 380.f });
+    exitText.setPosition({ 320.f, 380.f });
 
     // Ustawienie pocz¹tkowych kolorów
     updateSelection();

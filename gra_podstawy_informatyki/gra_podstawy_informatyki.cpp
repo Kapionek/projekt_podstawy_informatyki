@@ -16,10 +16,26 @@ enum class GameState //enum zarzadza stanami gry w tym samym oknie
 
 int main() {
 	sf::RenderWindow window(sf::VideoMode({ 800,808 }), "Zbijak");  // tworzy okno w {} jest rozmiar, "Zbijak" wyświetla się na górze okienka
-	const int max_bullets = 10; // const jest potrzebny do tablicy  
+	const int max_bullets = 20; // const jest potrzebny do tablicy  
 
 	// inicjacja textur (musmy je zainicjować wcześniej bo SFML musi mieć textury wcześniej 
 
+	sf::Texture textura_speed_buff;
+	if (!textura_speed_buff.loadFromFile("textury/speed_buff.png")) {
+		return -1;
+	}
+	sf::Texture textura_speed_debuff;
+	if (!textura_speed_debuff.loadFromFile("textury/speed_debuff.png")) {
+		return -1;
+	}
+	sf::Texture textura_multishot;
+	if (!textura_multishot.loadFromFile("textury/multishot.png")) {
+		return -1;
+	}
+	sf::Texture textura_big_ball;
+	if (!textura_big_ball.loadFromFile("textury/big_ball.png")) {
+		return -1;
+	}
 	sf::Texture textura_zycie;
 	if (!textura_zycie.loadFromFile("textury/zycie.png")) {
 		return -1;
@@ -46,6 +62,7 @@ int main() {
 	for (int i = 0; i < max_bullets; i++) { // tu masz
 		bullets[i].visible = false;
 		bullets[i].accel = -20.f;
+		bullets[i].hard_accel = -20.f;
 		bullets[i].sprite.setOrigin({ 8,8 }); // jako że ten sprite jest 16x16 to tu ustawiasz "środek" na 8x8
 		bullets[i].max_speed = 500;
 	}
@@ -82,24 +99,24 @@ int main() {
 	gracz2.rotatable = true;
 	gracz2.damagable = true;
 
-	Object speedup(textura);
+	Object speedup(textura_speed_buff);
 	speedup.sprite.setPosition({ 400.f,400.f });
 	speedup.sprite.setColor(sf::Color::Green);
 	speedup.visible = true;
 
-	Object slowdown(textura);
+	Object slowdown(textura_speed_debuff);
 	slowdown.sprite.setPosition({ 200.f,200.f });
-	slowdown.sprite.setColor(sf::Color::Blue);
+	slowdown.sprite.setColor(sf::Color::Red);
 	slowdown.visible = true;
 
-	Object big_ball(textura);
+	Object big_ball(textura_big_ball);
 	big_ball.sprite.setPosition({ 400.f,200.f });
-	big_ball.sprite.setColor(sf::Color::Yellow);
+	big_ball.sprite.setColor(sf::Color::Green);
 	big_ball.visible = true;
 
-	Object pdouble(textura);
+	Object pdouble(textura_multishot);
 	pdouble.sprite.setPosition({ 600.f, 400.f });
-	pdouble.sprite.setColor(sf::Color::White);
+	pdouble.sprite.setColor(sf::Color::Red);
 	pdouble.visible = true;
 
 

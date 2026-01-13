@@ -19,12 +19,12 @@ struct Object { //podstawowa struktura
 	bool max_speed_on = false;
 	bool visible = true;
 	bool damagable = false;
+	bool big_ball = false;
+	bool double_shot = false;
 	int health = 3;
 	int team = 0; // team 0 to jest bazowy team a teamy 1 i 2 to s¹ teamy graczy jak coœ 
 	float powerup_time = 0.f;
 	float normal_speed = 150.f;
-	bool big_ball = false;
-	bool double_shot = false;
 
 
 	Object(const sf::Texture& texture) : sprite(texture) {}  // to sprawia ¿e potem mo¿esz napisaæ Object(texture) i to daje texture
