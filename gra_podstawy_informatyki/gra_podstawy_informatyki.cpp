@@ -177,7 +177,7 @@ int main() {
 					}
 					gracz.sprite.move({ pole_g1->size.x * kierunek, 0.0f });
 					gracz.velocity.x = 0; //tylko bieg góra/dół
-					gracz.velocity.y *= 0.8; //tarcie (spowolnienie)
+					gracz.velocity.y *= 0.8f; //tarcie (spowolnienie)
 				}
 				else {//kolizja pionowa
 					float kierunek;
