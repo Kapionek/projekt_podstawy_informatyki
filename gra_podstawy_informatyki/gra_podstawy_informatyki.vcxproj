@@ -102,13 +102,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\antor\projekt\projekt_podstawy_informatyki\SFML-3.0.2-windows-vc17-64-bit\SFML-3.0.2\include;C:\Users\kapis\source\repos\gra_podstawy_informatyki\SFML-3.0.2-windows-vc17-64-bit\SFML-3.0.2\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\wojru\source\repos\projekt_podstawy_informatyki\SFML-3.0.2-windows-vc17-64-bit\SFML-3.0.2\include;C:\Users\antor\projekt\projekt_podstawy_informatyki\SFML-3.0.2-windows-vc17-64-bit\SFML-3.0.2\include;C:\Users\kapis\source\repos\gra_podstawy_informatyki\SFML-3.0.2-windows-vc17-64-bit\SFML-3.0.2\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\antor\projekt\projekt_podstawy_informatyki\SFML-3.0.2-windows-vc17-64-bit\SFML-3.0.2\lib;C:\Users\kapis\source\repos\gra_podstawy_informatyki\SFML-3.0.2-windows-vc17-64-bit\SFML-3.0.2\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\wojru\source\repos\projekt_podstawy_informatyki\SFML-3.0.2-windows-vc17-64-bit\SFML-3.0.2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -120,25 +120,27 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\antor\projekt\projekt_podstawy_informatyki\SFML-3.0.2-windows-vc17-64-bit\SFML-3.0.2\include;C:\Users\kapis\source\repos\gra_podstawy_informatyki\SFML-3.0.2-windows-vc17-64-bit\SFML-3.0.2\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\wojru\source\repos\projekt_podstawy_informatyki\SFML-3.0.2-windows-vc17-64-bit\SFML-3.0.2\include;C:\Users\antor\projekt\projekt_podstawy_informatyki\SFML-3.0.2-windows-vc17-64-bit\SFML-3.0.2\include;C:\Users\kapis\source\repos\gra_podstawy_informatyki\SFML-3.0.2-windows-vc17-64-bit\SFML-3.0.2\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Users\antor\projekt\projekt_podstawy_informatyki\SFML-3.0.2-windows-vc17-64-bit\SFML-3.0.2\lib;C:\Users\kapis\source\repos\gra_podstawy_informatyki\SFML-3.0.2-windows-vc17-64-bit\SFML-3.0.2\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\wojru\source\repos\projekt_podstawy_informatyki\SFML-3.0.2-windows-vc17-64-bit\SFML-3.0.2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="gra_podstawy_informatyki.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="obiekty.cpp" />
     <ClCompile Include="sterowanie.cpp" />
     <ClCompile Include="zycie.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bullet.h" />
+    <ClInclude Include="menu.h" />
     <ClInclude Include="obiekty.h" />
     <ClInclude Include="sterowanie.h" />
     <ClInclude Include="zycie.h" />

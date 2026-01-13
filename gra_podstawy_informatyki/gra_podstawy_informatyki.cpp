@@ -4,6 +4,15 @@
 #include "bullet.h"
 #include "sterowanie.h"
 #include "zycie.h"
+#include "Menu.h"
+
+
+
+enum class GameState //enum zarzadza stanami gry w tym samym oknie 
+{
+	MENU,
+	GAME
+};
 
 int main() {
 	sf::RenderWindow window(sf::VideoMode({ 800,808 }), "Zbijak");  // tworzy okno w {} jest rozmiar, "Zbijak" wyświetla się na górze okienka
@@ -53,6 +62,9 @@ int main() {
 		walls[i].sprite.setOrigin({ 8,8 });
 		
 	}
+
+	GameState state = GameState::MENU; // tworzenie menu
+	Menu menu(window, walls);
 
 	Object gracz(textura_gracz); // tu nazywasz obiekt i piszesz co to za obiekt 
 	gracz.accel = -250.f;
@@ -111,6 +123,26 @@ int main() {
 
 	sf::Clock clock; // zegar do mierzenia czasu między klatkami
 	while (window.isOpen()) {   // to spawia że gra działa dopóki okno jest otwarte
+
+
+		//wywołaie menu 
+		if (state == GameState::MENU) {
+			while (const std::optional event = window.pollEvent()) {
+				if (event->is<sf::Event::Closed>()) window.close();
+				menu.handleEvent(*event);
+			}
+
+			window.clear();
+			menu.draw();
+			window.display();
+
+			if (menu.shouldStartGame()) state = GameState::GAME;
+			if (menu.shouldExit()) window.close();
+
+			continue; // przeskakkuje do logiki gry
+		}
+
+
 		sf::Time timer = clock.restart(); // sf::Time - to jest wynik // mierzy czas między klatkami
 		float delta = timer.asSeconds();
 
