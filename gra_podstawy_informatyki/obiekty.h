@@ -24,6 +24,7 @@ struct Object { //podstawowa struktura
 	float powerup_time = 0.f;
 	float normal_speed = 150.f;
 	bool big_ball = false;
+	bool double_shot = false;
 
 
 	Object(const sf::Texture& texture) : sprite(texture) {}  // to sprawia ¿e potem mo¿esz napisaæ Object(texture) i to daje texture

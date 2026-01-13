@@ -85,6 +85,12 @@ int main() {
 	big_ball.sprite.setColor(sf::Color::Yellow);
 	big_ball.visible = true;
 
+	Object pdouble(textura);
+	pdouble.sprite.setPosition({ 600.f, 400.f });
+	pdouble.sprite.setColor(sf::Color::White);
+	pdouble.visible = true;
+
+
 	for (int i = 0; i < 6; i++) {
 		zycia[i].movable = false;
 		zycia[i].sprite.setOrigin({ 4,4 });
@@ -292,6 +298,22 @@ int main() {
 			gracz2.powerup_time = 5.f;
 			big_ball.visible = false;
 		}
+		//gracz 1 z podwójnym strzałem
+		if (pdouble.visible) {
+			if (gracz.sprawdzKolizje(pdouble)) {
+				gracz.double_shot = true;
+				gracz.powerup_time = 10.f;
+				pdouble.visible = false;
+			}
+		}
+		//gracz 2 z podwójnym strzałem
+		if (pdouble.visible) {
+			if (gracz2.sprawdzKolizje(pdouble)) {
+				gracz2.double_shot = true;
+				gracz2.powerup_time = 10.f;
+				pdouble.visible = false;
+			}
+		}
 		// tu pomiędzy clear() a display() dajemy draw do obiektów bo bez draw nic sie nie wyświetli
 		window.clear();  // czyści okno z poprzedniej klatki
 		for (int i = 0; i < 200; i++) {
@@ -324,6 +346,10 @@ int main() {
 		if (big_ball.visible) {
 			window.draw(big_ball.sprite);
 		}
+		if (pdouble.visible) {
+			window.draw(pdouble.sprite);
+		}
+
 		window.display(); // wyświetla zawartość okna
 	}
 	return 0;

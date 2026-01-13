@@ -42,6 +42,14 @@ void obslugaGracza1(Object& gracz, Bullet bullets[], int max_bullets) {
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Q)) {  //strza³ pi³k¹ 
 		if (gracz.shot_cooldown <= 0.f) {
+			int ile_pociskow;
+			if (gracz.double_shot == true) {
+				ile_pociskow = 2; //z bonusme strza³ 2 razy
+			}
+			else {
+				ile_pociskow = 1;
+			}
+			int wystrzelone = 0;
 			for (int i = 0; i < max_bullets; i++) {	 // tu przechodzi przez wszystkie dostêpne bullety dostêpne 
 				if (bullets[i].visible == false) {
 					bullets[i].visible = true;  // tu zmienia parametry i ustawia dla tego bulleta 
@@ -50,6 +58,13 @@ void obslugaGracza1(Object& gracz, Bullet bullets[], int max_bullets) {
 					bullets[i].speed = 500.f;
 					bullets[i].life_time = 10.f;
 					bullets[i].team = gracz.team;
+					//ustalnienie kierunku
+					if (wystrzelone == 0) {
+						bullets[i].direction = gracz.last_direction;
+					}
+					else {
+						bullets[i].direction = -gracz.last_direction;
+					}
 					//Powiêksznie pi³ki
 					if (gracz.big_ball) {
 						bullets[i].sprite.setScale({ 2.0f,2.0f });
@@ -57,7 +72,11 @@ void obslugaGracza1(Object& gracz, Bullet bullets[], int max_bullets) {
 					else {
 						bullets[i].sprite.setScale({ 1.0f, 1.0f });
 					}
-					break; // by nie szuka³ dalej
+					wystrzelone = wystrzelone + 1;
+					if (wystrzelone >= ile_pociskow) {
+						break;
+					}
+					
 				}
 			}
 			gracz.shot_cooldown = 2;
@@ -107,6 +126,14 @@ void obslugaGracza2(Object& gracz2, Bullet bullets[], int max_bullets) {
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::U)) {
 		if (gracz2.shot_cooldown <= 0.f) {
+			int ile_pociskow;
+			if (gracz2.double_shot == true) {
+				ile_pociskow = 2; //z bonusme strza³ 2 razy
+			}
+			else {
+				ile_pociskow = 1;
+			}
+			int wystrzelone = 0;
 			for (int i = 0; i < max_bullets; i++) {
 				if (bullets[i].visible == false) {
 					bullets[i].visible = true;
@@ -115,6 +142,14 @@ void obslugaGracza2(Object& gracz2, Bullet bullets[], int max_bullets) {
 					bullets[i].speed = 500.f;
 					bullets[i].life_time = 10.f;
 					bullets[i].team = gracz2.team;
+					bullets[i].team = gracz2.team;
+					//ustalnienie kierunku
+					if (wystrzelone == 0) {
+						bullets[i].direction = gracz2.last_direction;
+					}
+					else {
+						bullets[i].direction = -gracz2.last_direction;
+					}
 					//Powiêksznie pi³ki
 					if (gracz2.big_ball) {
 						bullets[i].sprite.setScale({ 2.0f,2.0f });
@@ -122,7 +157,11 @@ void obslugaGracza2(Object& gracz2, Bullet bullets[], int max_bullets) {
 					else {
 						bullets[i].sprite.setScale({ 1.0f, 1.0f });
 					}
-					break;
+					wystrzelone = wystrzelone + 1;
+
+					if (wystrzelone >= ile_pociskow) {
+						break;
+					}
 				}
 			}
 			gracz2.shot_cooldown = 2;

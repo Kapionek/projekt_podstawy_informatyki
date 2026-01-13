@@ -97,6 +97,7 @@ void Object::_physics_process(float delta) { // ta funcja dzieje siê co klatkê i
 		max_speed = normal_speed;
 		powerup_time = 0.f;
 		big_ball = false;
+		double_shot = false;
 	}
 }
 bool Object::sprawdzKolizje(const Object& inny) {
