@@ -13,10 +13,34 @@
 enum class GameState //enum zarzadza stanami gry w tym samym oknie 
 {
 	MENU,
-	GAME
+	GAME,
+	END_SCREEN
 };
 
-int main() {
+//resert gry zrobilem osobna funkcje bo zaczyanlem miec problemy z odnalezieniem sie w kodzie 
+void resetujGre(Object& g1, Object& g2, std::vector<Bullet>& b, std::vector<Zycie>& z) {
+	// Przywracanie zdrowia i pozycji gracza 1
+	g1.health = 3;
+	g1.sprite.setPosition({ 100.f, 100.f });
+	g1.velocity = { 0.f, 0.f };
+
+	// Przywracanie zdrowia i pozycji gracza 2
+	g2.health = 3;
+	g2.sprite.setPosition({ 700.f, 700.f });
+	g2.velocity = { 0.f, 0.f };
+
+	// Ukrywanie wszystkich pocisków na ekranie
+	for (auto& bullet : b) {
+		bullet.visible = false;
+	}
+
+	// Przywracanie widoczności serduszek
+	for (auto& serce : z) {
+		serce.visible = true;
+	}
+}
+
+int main(){
 	srand(time(NULL));
 	sf::RenderWindow window(sf::VideoMode({ 800,808 }), "Zbijak");  // tworzy okno w {} jest rozmiar, "Zbijak" wyświetla się na górze okienka
 	const int max_bullets = 20; // const jest potrzebny do tablicy  
@@ -163,20 +187,29 @@ int main() {
 
 
 		//wywołaie menu 
-		if (state == GameState::MENU) {
+		if (state == GameState::MENU || state == GameState::END_SCREEN) {
 			while (const std::optional event = window.pollEvent()) {
 				if (event->is<sf::Event::Closed>()) window.close();
 				menu.handleEvent(*event);
 			}
 
+			if (menu.shouldStartGame()) {
+				// resertuje stan gry przed nowym startem
+				resetujGre(gracz, gracz2, bullets, zycia);
+
+				
+				menu.resetFlags();
+
+				state = GameState::GAME;
+			}
+
+			if (menu.shouldExit()) window.close();
+
 			window.clear();
 			menu.draw();
 			window.display();
 
-			if (menu.shouldStartGame()) state = GameState::GAME;
-			if (menu.shouldExit()) window.close();
-
-			continue; // przeskakkuje do logiki gry
+			continue;
 		}
 
 
@@ -315,6 +348,8 @@ int main() {
 				}
 			}
 		}
+
+
 
 		//ślizganie graczy na ścianach
 		for (int j = 0; j < 250; j++) {
@@ -491,6 +526,14 @@ int main() {
 		}
 		if (pdouble.visible) {
 			window.draw(pdouble.sprite);
+		}
+
+		//sprawdzanie konca gry
+		if (gracz.health <= 0 || gracz2.health <= 0) {
+			int winner = (gracz.health > 0) ? 1 : 2;
+
+			menu.setEndScreen(winner); // Ustawia nagłówek i zmienia nazwy przycisków
+			state = GameState::END_SCREEN;
 		}
 
 		window.display(); // wyświetla zawartość okna
