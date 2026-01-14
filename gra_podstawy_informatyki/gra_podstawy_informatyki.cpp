@@ -1,5 +1,7 @@
 ﻿#include <SFML/Graphics.hpp>  // biblioteka SFML
 #include <vector>  // to jest do vectorów 
+#include <ctime>
+#include <cstdlib>
 #include "obiekty.h"
 #include "bullet.h"
 #include "sterowanie.h"
@@ -15,6 +17,7 @@ enum class GameState //enum zarzadza stanami gry w tym samym oknie
 };
 
 int main() {
+	srand(time(NULL));
 	sf::RenderWindow window(sf::VideoMode({ 800,808 }), "Zbijak");  // tworzy okno w {} jest rozmiar, "Zbijak" wyświetla się na górze okienka
 	const int max_bullets = 20; // const jest potrzebny do tablicy  
 
@@ -108,25 +111,25 @@ int main() {
 	gracz2.buffable = true;
 
 	Object speedup(textura_speed_buff);
-	speedup.sprite.setPosition({ 400.f,500.f });
+	speedup.sprite.setPosition({ (float)(rand()%600+100), (float)(rand()%600 +100)});
 	speedup.sprite.setOrigin({ 8,8 });
 	speedup.sprite.setColor(sf::Color::Green);
 	speedup.visible = true;
 
 	Object slowdown(textura_speed_debuff);
-	slowdown.sprite.setPosition({ 200.f,300.f });
+	slowdown.sprite.setPosition({ (float)(rand() % 600 + 100), (float)(rand() % 600 + 100) });
 	slowdown.sprite.setOrigin({ 8,8 });
 	slowdown.sprite.setColor(sf::Color::Red);
 	slowdown.visible = true;
 
 	Object big_ball(textura_big_ball);
-	big_ball.sprite.setPosition({ 400.f,300.f });
+	big_ball.sprite.setPosition({ (float)(rand() % 600 + 100), (float)(rand() % 600 + 100) });
 	big_ball.sprite.setOrigin({ 8,8 });
 	big_ball.sprite.setColor(sf::Color::Green);
 	big_ball.visible = true;
 
 	Object pdouble(textura_multishot);
-	pdouble.sprite.setPosition({ 600.f, 500.f });
+	pdouble.sprite.setPosition({ (float)(rand() % 600 + 100), (float)(rand() % 600 + 100) });
 	pdouble.sprite.setOrigin({ 8,8 });
 	pdouble.sprite.setColor(sf::Color::Red);
 	pdouble.visible = true;
@@ -182,15 +185,19 @@ int main() {
 		if (respawn_timer >= respawn_time_limit) {
 			//sprawdzanie każdego bonusu
 			if (speedup.visible == false) {
+				speedup.sprite.setPosition({ (float)(rand() % 600 + 100), (float)(rand() % 600 + 100) });
 				speedup.visible = true;
 			}
 			if (slowdown.visible == false) {
+				slowdown.sprite.setPosition({ (float)(rand() % 600 + 100), (float)(rand() % 600 + 100) });
 				slowdown.visible = true;
 			}
 			if (big_ball.visible == false) {
+				big_ball.sprite.setPosition({ (float)(rand() % 600 + 100), (float)(rand() % 600 + 100) });
 				big_ball.visible = true;
 			}
 			if (pdouble.visible == false) {
+				pdouble.sprite.setPosition({ (float)(rand() % 600 + 100), (float)(rand() % 600 + 100) });
 				pdouble.visible = true;
 			}
 			respawn_timer = 0.f; //reset licznika po każdej próbie odrodzenia
@@ -358,12 +365,12 @@ int main() {
 		if (slowdown.visible) {
 			//gracz1 ze spowolnieniem
 			if (gracz.sprawdzKolizje(slowdown)) {
-				gracz.apply_buffs(1);
+				gracz2.apply_buffs(1);
 				slowdown.visible = false;
 			}
 			//gracz2 ze spowolnieniem
 			if (gracz2.sprawdzKolizje(slowdown)) {
-				gracz2.apply_buffs(1);
+				gracz.apply_buffs(1);
 				slowdown.visible = false;
 			}
 		}
