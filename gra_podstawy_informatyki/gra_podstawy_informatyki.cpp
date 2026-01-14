@@ -154,7 +154,10 @@ int main() {
 	}
 
 	sf::Clock clock; // zegar do mierzenia czasu między klatkami
-	float respawn_timer = 0.f; //licznik czasu do odrodzenia bonusów
+	float timer_speedup = 0.f; //liczniki czasu do odrodzenia bonusów
+	float timer_slowdown = 0.f;
+	float timer_bigball = 0.f;
+	float timer_pdouble = 0.f;
 	float respawn_time_limit = 10.f; //wracanie bonusów
 	while (window.isOpen()) {   // to spawia że gra działa dopóki okno jest otwarte
 
@@ -181,26 +184,38 @@ int main() {
 		float delta = timer.asSeconds();
 
 		//Respawn bonusów
-		respawn_timer += delta;
-		if (respawn_timer >= respawn_time_limit) {
-			//sprawdzanie każdego bonusu
-			if (speedup.visible == false) {
+		//sprawdzanie każdego bonusu
+		if (speedup.visible == false) {
+			timer_speedup += delta;
+			if (timer_speedup >= respawn_time_limit) {
 				speedup.sprite.setPosition({ (float)(rand() % 600 + 100), (float)(rand() % 600 + 100) });
 				speedup.visible = true;
+				timer_speedup = 0.f;
 			}
-			if (slowdown.visible == false) {
+		}
+		if (slowdown.visible == false) {
+			timer_slowdown += delta;
+			if (timer_slowdown >= respawn_time_limit) {
 				slowdown.sprite.setPosition({ (float)(rand() % 600 + 100), (float)(rand() % 600 + 100) });
 				slowdown.visible = true;
+				timer_slowdown = 0.f;
 			}
-			if (big_ball.visible == false) {
+		}
+		if (big_ball.visible == false) {
+			timer_bigball += delta;
+			if (timer_bigball >= respawn_time_limit) {
 				big_ball.sprite.setPosition({ (float)(rand() % 600 + 100), (float)(rand() % 600 + 100) });
 				big_ball.visible = true;
+				timer_bigball = 0.f;
 			}
-			if (pdouble.visible == false) {
+		}
+		if (pdouble.visible == false) {
+			timer_pdouble += delta;
+			if (timer_pdouble >= respawn_time_limit) {
 				pdouble.sprite.setPosition({ (float)(rand() % 600 + 100), (float)(rand() % 600 + 100) });
 				pdouble.visible = true;
+				timer_pdouble = 0.f;
 			}
-			respawn_timer = 0.f; //reset licznika po każdej próbie odrodzenia
 		}
 
 		while (const std::optional event = window.pollEvent()) { // sparawdza czy zaszło jakieś zdarzenie (np. kliknięcie krzyżyka)
