@@ -141,24 +141,72 @@ int main(){
 	speedup.sprite.setOrigin({ 8,8 });
 	speedup.sprite.setColor(sf::Color::Green);
 	speedup.visible = true;
+	//losowanie pozycji startowej bez ścian
+	bool kolizja_start_speedup = true;
+	while (kolizja_start_speedup) {
+		speedup.sprite.setPosition({ (float)(rand() % 600 + 100), (float)(rand() % 600 + 100) });
+		kolizja_start_speedup = false;
+		for (int i = 0; i < 250; i++) {
+			if (speedup.sprawdzKolizje(walls[i])) {
+				kolizja_start_speedup = true;
+				break;
+			}
+		}
+	}
 
 	Object slowdown(textura_speed_debuff);
 	slowdown.sprite.setPosition({ (float)(rand() % 600 + 100), (float)(rand() % 600 + 100) });
 	slowdown.sprite.setOrigin({ 8,8 });
 	slowdown.sprite.setColor(sf::Color::Red);
 	slowdown.visible = true;
+	//losowanie pozycji startowej bez ścian
+	bool kolizja_start_slowdown = true;
+	while (kolizja_start_slowdown) {
+		slowdown.sprite.setPosition({ (float)(rand() % 600 + 100), (float)(rand() % 600 + 100) });
+		kolizja_start_slowdown = false;
+		for (int i = 0; i < 250; i++) {
+			if (slowdown.sprawdzKolizje(walls[i])) {
+				kolizja_start_slowdown = true;
+				break;
+			}
+		}
+	}
 
 	Object big_ball(textura_big_ball);
 	big_ball.sprite.setPosition({ (float)(rand() % 600 + 100), (float)(rand() % 600 + 100) });
 	big_ball.sprite.setOrigin({ 8,8 });
 	big_ball.sprite.setColor(sf::Color::Green);
 	big_ball.visible = true;
+	//losowanie pozycji startowej bez ścian
+	bool kolizja_start_big_ball = true;
+	while (kolizja_start_big_ball) {
+		big_ball.sprite.setPosition({ (float)(rand() % 600 + 100), (float)(rand() % 600 + 100) });
+		kolizja_start_big_ball = false;
+		for (int i = 0; i < 250; i++) {
+			if (big_ball.sprawdzKolizje(walls[i])) {
+				kolizja_start_big_ball = true;
+				break;
+			}
+		}
+	}
 
 	Object pdouble(textura_multishot);
 	pdouble.sprite.setPosition({ (float)(rand() % 600 + 100), (float)(rand() % 600 + 100) });
 	pdouble.sprite.setOrigin({ 8,8 });
 	pdouble.sprite.setColor(sf::Color::Red);
 	pdouble.visible = true;
+	//losowanie pozycji startowej bez ścian
+	bool kolizja_start_pdouble = true;
+	while (kolizja_start_pdouble) {
+		pdouble.sprite.setPosition({ (float)(rand() % 600 + 100), (float)(rand() % 600 + 100) });
+		kolizja_start_pdouble = false;
+		for (int i = 0; i < 250; i++) {
+			if (pdouble.sprawdzKolizje(walls[i])) {
+				kolizja_start_pdouble = true;
+				break;
+			}
+		}
+	}
 
 
 	for (int i = 0; i < 6; i++) {
