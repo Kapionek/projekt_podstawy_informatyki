@@ -39,7 +39,7 @@ void obslugaGracza1(Object& gracz, Bullet bullets[], int max_bullets, Object wal
 			gracz.direction = gracz.last_direction; // u¿ywa last direction by mo¿na by³o dashowaæ jak sie stoi
 		}
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z)) {  //strza³ pi³k¹ 
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::C)) {  //strza³ pi³k¹ 
 		if (gracz.shot_cooldown <= 0.f) {
 			int ile_pociskow;
 			if (gracz.multishot == true) {
@@ -52,7 +52,12 @@ void obslugaGracza1(Object& gracz, Bullet bullets[], int max_bullets, Object wal
 			for (int i = 0; i < max_bullets; i++) {	 // tu przechodzi przez wszystkie dostêpne bullety dostêpne 
 				if (bullets[i].visible == false) {
 					bullets[i].visible = true;  // tu zmienia parametry i ustawia dla tego bulleta 
-					bullets[i].sprite.setPosition(gracz.sprite.getPosition() + gracz.last_direction * 4.f);
+					if (!gracz.big_ball) {
+						bullets[i].sprite.setPosition(gracz.sprite.getPosition());
+					}
+					else {
+						bullets[i].sprite.setPosition(gracz.sprite.getPosition() - gracz.last_direction * 8.f);
+					}
 					bullets[i].direction = gracz.last_direction;
 					bullets[i].speed = 500.f;
 					bullets[i].normal_speed = 500.f;
@@ -123,7 +128,7 @@ void obslugaGracza2(Object& gracz2, Bullet bullets[], int max_bullets, Object wa
 			gracz2.direction = gracz2.last_direction;
 		}
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M)) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::N)) {
 		if (gracz2.shot_cooldown <= 0.f) {
 			int ile_pociskow;
 			if (gracz2.multishot == true) {
@@ -136,8 +141,12 @@ void obslugaGracza2(Object& gracz2, Bullet bullets[], int max_bullets, Object wa
 			for (int i = 0; i < max_bullets; i++) {
 				if (bullets[i].visible == false) {
 					bullets[i].visible = true;
-					bullets[i].sprite.setPosition(gracz2.sprite.getPosition() + gracz2.last_direction * 4.f);
-
+					if (!gracz2.big_ball) {
+						bullets[i].sprite.setPosition(gracz2.sprite.getPosition());
+					}
+					else {
+						bullets[i].sprite.setPosition(gracz2.sprite.getPosition() - gracz2.last_direction * 8.f);
+					}
 					bullets[i].direction = gracz2.last_direction;
 					bullets[i].speed = 500.f;
 					bullets[i].normal_speed = 500.f;

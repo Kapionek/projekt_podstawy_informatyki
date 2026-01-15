@@ -24,13 +24,15 @@ enum class GameState //enum zarzadza stanami gry w tym samym oknie
 void resetujGre(Object& g1, Object& g2, std::vector<Bullet>& b, std::vector<Zycie>& z) {
 	// Przywracanie zdrowia i pozycji gracza 1
 	g1.health = 3;
-	g1.sprite.setPosition({ 100.f, 100.f });
 	g1.velocity = { 0.f, 0.f };
+	g1.sprite.setPosition({ 100.f, 100.f });
+	g1.visible = true;
 
 	// Przywracanie zdrowia i pozycji gracza 2
 	g2.health = 3;
-	g2.sprite.setPosition({ 700.f, 700.f });
 	g2.velocity = { 0.f, 0.f };
+	g2.sprite.setPosition({ 700.f, 700.f });
+	g2.visible = true;
 
 	// Ukrywanie wszystkich pocisków na ekranie
 	for (auto& bullet : b) {
@@ -255,10 +257,10 @@ int main(){
 				// resertuje stan gry przed nowym startem
 				resetujGre(gracz, gracz2, bullets, zycia);
 
-				
 				menu.resetFlags();
 
 				state = GameState::GAME;
+				clock.restart();
 			}
 
 			if (menu.shouldExit()) window.close();
