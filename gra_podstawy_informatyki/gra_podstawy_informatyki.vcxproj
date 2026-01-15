@@ -131,6 +131,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bonusy.cpp" />
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="gra_podstawy_informatyki.cpp" />
     <ClCompile Include="kolizje.cpp" />
@@ -140,6 +141,7 @@
     <ClCompile Include="zycie.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bonusy.h" />
     <ClInclude Include="bullet.h" />
     <ClInclude Include="kolizje.h" />
     <ClInclude Include="menu.h" />

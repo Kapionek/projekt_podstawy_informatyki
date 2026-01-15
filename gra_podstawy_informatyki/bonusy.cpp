@@ -1,0 +1,94 @@
+#include "bonusy.h"
+#include <cstdlib>
+
+void obslugaRespawnBonusow(
+	float delta,
+	float respawn_time_limit,
+	std::vector<Object>& walls,
+	Object& speedup,
+	float& timer_speedup,
+	Object& big_ball,
+	float& timer_bigball,
+	Object& slowdown,
+	float& timer_slowdown,
+	Object& pdouble,
+	float& timer_pdouble
+) {
+	//sprawdzanie ka¿dego bonusu
+	if (speedup.visible == false) {
+		timer_speedup += delta;
+		if (timer_speedup >= respawn_time_limit) {
+			bool kolizja = true;
+			while (kolizja) {
+				speedup.sprite.setPosition({ (float)(rand() % 600 + 100), (float)(rand() % 600 + 100) });
+				kolizja = false; //zak³adam ¿e jest ok
+				//sprawdzanie czy dotyka œciany
+				for (int i = 0; i < 250; i++) {
+					if (speedup.sprawdzKolizje(walls[i])) {
+						kolizja = true; //trafi³o na œcianê
+						break;
+					}
+				}
+			}
+			speedup.visible = true;
+			timer_speedup = 0.f;
+		}
+	}
+	if (big_ball.visible == false) {
+		timer_bigball += delta;
+		if (timer_bigball >= respawn_time_limit) {
+			bool kolizja = true;
+			while (kolizja) {
+				big_ball.sprite.setPosition({ (float)(rand() % 600 + 100), (float)(rand() % 600 + 100) });
+				kolizja = false; //zak³adam ¿e jest ok
+				//sprawdzanie czy dotyka œciany
+				for (int i = 0; i < 250; i++) {
+					if (big_ball.sprawdzKolizje(walls[i])) {
+						kolizja = true; //trafi³o na œcianê
+						break;
+					}
+				}
+			}
+			big_ball.visible = true;
+			timer_bigball = 0.f;
+		}
+	}
+	if (slowdown.visible == false) {
+		timer_slowdown += delta;
+		if (timer_slowdown >= respawn_time_limit) {
+			bool kolizja = true;
+			while (kolizja) {
+				slowdown.sprite.setPosition({ (float)(rand() % 600 + 100), (float)(rand() % 600 + 100) });
+				kolizja = false; //zak³adam ¿e jest ok
+				//sprawdzanie czy dotyka œciany
+				for (int i = 0; i < 250; i++) {
+					if (slowdown.sprawdzKolizje(walls[i])) {
+						kolizja = true; //trafi³o na œcianê
+						break;
+					}
+				}
+			}
+			slowdown.visible = true;
+			timer_slowdown = 0.f;
+		}
+	}
+	if (pdouble.visible == false) {
+		timer_pdouble += delta;
+		if (timer_pdouble >= respawn_time_limit) {
+			bool kolizja = true;
+			while (kolizja) {
+				pdouble.sprite.setPosition({ (float)(rand() % 600 + 100), (float)(rand() % 600 + 100) });
+				kolizja = false; //zak³adam ¿e jest ok
+				//sprawdzanie czy dotyka œciany
+				for (int i = 0; i < 250; i++) {
+					if (pdouble.sprawdzKolizje(walls[i])) {
+						kolizja = true; //trafi³o na œcianê
+						break;
+					}
+				}
+			}
+			pdouble.visible = true;
+			timer_pdouble = 0.f;
+		}
+	}
+}
