@@ -11,7 +11,7 @@ void obslugaGracza1(Object& gracz, Bullet bullets[], int max_bullets, Object wal
 			gracz.speed = gracz.max_speed;
 		}
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
 		if (gracz.speed <= gracz.max_speed) {
 			gracz.direction.y = 1;
 			gracz.max_speed_on = true;
@@ -25,7 +25,7 @@ void obslugaGracza1(Object& gracz, Bullet bullets[], int max_bullets, Object wal
 			gracz.speed = gracz.max_speed;
 		}
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
 		if (gracz.speed <= gracz.max_speed) {
 			gracz.direction.x = 1;
 			gracz.max_speed_on = true;
@@ -39,8 +39,7 @@ void obslugaGracza1(Object& gracz, Bullet bullets[], int max_bullets, Object wal
 			gracz.direction = gracz.last_direction; // u¿ywa last direction by mo¿na by³o dashowaæ jak sie stoi
 		}
 	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Q)) {  //strza³ pi³k¹ 
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z)) {  //strza³ pi³k¹ 
 		if (gracz.shot_cooldown <= 0.f) {
 			int ile_pociskow;
 			if (gracz.multishot == true) {
@@ -96,7 +95,7 @@ void obslugaGracza2(Object& gracz2, Bullet bullets[], int max_bullets, Object wa
 			gracz2.speed = gracz2.max_speed;
 		}
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::K)) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::K)) {
 		if (gracz2.speed <= gracz2.max_speed) {
 			gracz2.direction.y = 1;
 			gracz2.max_speed_on = true;
@@ -110,7 +109,7 @@ void obslugaGracza2(Object& gracz2, Bullet bullets[], int max_bullets, Object wa
 			gracz2.speed = gracz2.max_speed;
 		}
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::L)) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::L)) {
 		if (gracz2.speed <= gracz2.max_speed) {
 			gracz2.direction.x = 1;
 			gracz2.max_speed_on = true;
@@ -124,8 +123,7 @@ void obslugaGracza2(Object& gracz2, Bullet bullets[], int max_bullets, Object wa
 			gracz2.direction = gracz2.last_direction;
 		}
 	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::U)) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M)) {
 		if (gracz2.shot_cooldown <= 0.f) {
 			int ile_pociskow;
 			if (gracz2.multishot == true) {
@@ -139,6 +137,7 @@ void obslugaGracza2(Object& gracz2, Bullet bullets[], int max_bullets, Object wa
 				if (bullets[i].visible == false) {
 					bullets[i].visible = true;
 					bullets[i].sprite.setPosition(gracz2.sprite.getPosition() + gracz2.last_direction * 4.f);
+
 					bullets[i].direction = gracz2.last_direction;
 					bullets[i].speed = 500.f;
 					bullets[i].normal_speed = 500.f;
