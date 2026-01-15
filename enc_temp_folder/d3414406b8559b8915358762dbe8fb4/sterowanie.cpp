@@ -139,6 +139,11 @@ void obslugaGracza2(Object& gracz2, Bullet bullets[], int max_bullets, Object wa
 				if (bullets[i].visible == false) {
 					bullets[i].visible = true;
 					bullets[i].sprite.setPosition(gracz2.sprite.getPosition() + gracz2.last_direction * 4.f);
+					for (int j = 0; j < 250; j++) {
+						if (bullets[j].sprawdzKolizje(walls[j])) {
+							bullets[j].sprite.setPosition(gracz2.sprite.getPosition() - gracz2.last_direction * 4.f);
+						}
+					}
 					bullets[i].direction = gracz2.last_direction;
 					bullets[i].speed = 500.f;
 					bullets[i].normal_speed = 500.f;
