@@ -1,4 +1,5 @@
 ﻿#include <SFML/Graphics.hpp>  // biblioteka SFML
+#include <SFML/Audio.hpp> // do dźwięku 
 #include <vector>  // to jest do vectorów 
 #include <ctime>
 #include <cstdlib>
@@ -47,6 +48,12 @@ int main(){
 	sf::RenderWindow window(sf::VideoMode({ 800,808 }), "Zbijak");  // tworzy okno w {} jest rozmiar, "Zbijak" wyświetla się na górze okienka
 	const int max_bullets = 20; // const jest potrzebny do tablicy  
 
+
+	sf::SoundBuffer buffer;
+	if (!buffer.loadFromFile("muzyka.mp3")) {
+		return -1;
+	}
+	sf::Sound music(buffer);
 	// inicjacja textur (musmy je zainicjować wcześniej bo SFML musi mieć textury wcześniej 
 
 	sf::Texture textura_speed_buff;
@@ -233,9 +240,10 @@ int main(){
 	float timer_bigball = 0.f;
 	float timer_pdouble = 0.f;
 	float respawn_time_limit = 10.f; //wracanie bonusów
+	music.setLooping(true);
+	music.play();
+	music.setVolume(2); // tu mamy do ustawiania głośności to w ustawieniach można by zmieniniać 
 	while (window.isOpen()) {   // to spawia że gra działa dopóki okno jest otwarte
-
-
 		//wywołaie menu 
 		if (state == GameState::MENU || state == GameState::END_SCREEN) {
 			while (const std::optional event = window.pollEvent()) {
@@ -275,8 +283,8 @@ int main(){
 				window.close(); // zamyka okno kiedy klikniemy na krzyżyk
 		} // tu nic nie zmieniamy ^
 
-		obslugaGracza1(gracz, bullets.data(), max_bullets); // dałem .data bo bez .data to nie działa bo to inny rodzaj tablicy
-		obslugaGracza2(gracz2, bullets.data(), max_bullets);
+		obslugaGracza1(gracz, bullets.data(), max_bullets, walls.data()); // dałem .data bo bez .data to nie działa bo to inny rodzaj tablicy
+		obslugaGracza2(gracz2, bullets.data(), max_bullets, walls.data());
 
 		// tu _physic_process()
 		gracz._physics_process(delta);

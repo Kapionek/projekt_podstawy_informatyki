@@ -1,5 +1,5 @@
 #include "sterowanie.h"
-void obslugaGracza1(Object& gracz, Bullet bullets[], int max_bullets) {
+void obslugaGracza1(Object& gracz, Bullet bullets[], int max_bullets, Object walls[]) {
 	if (gracz.speed <= 0.f) { // ta czêœæ obs³uguje gracza i te¿ zwalnianie
 		gracz.direction = { 0.f, 0.f };
 	}
@@ -84,7 +84,7 @@ void obslugaGracza1(Object& gracz, Bullet bullets[], int max_bullets) {
 		}
 	}
 }
-void obslugaGracza2(Object& gracz2, Bullet bullets[], int max_bullets) {
+void obslugaGracza2(Object& gracz2, Bullet bullets[], int max_bullets, Object walls[]) {
 	if (gracz2.speed <= 0.f) {
 		gracz2.direction = { 0.f, 0.f };
 	}
@@ -138,7 +138,12 @@ void obslugaGracza2(Object& gracz2, Bullet bullets[], int max_bullets) {
 			for (int i = 0; i < max_bullets; i++) {
 				if (bullets[i].visible == false) {
 					bullets[i].visible = true;
-					bullets[i].sprite.setPosition(gracz2.sprite.getPosition()+gracz2.last_direction * 4.f);
+					bullets[i].sprite.setPosition(gracz2.sprite.getPosition() + gracz2.last_direction * 4.f);
+					for (int i = 0; i < 250; i++) {
+						if (bullets[i].sprawdzKolizje(walls[i])) {
+							bullets[i].sprite.setPosition(gracz2.sprite.getPosition() - gracz2.last_direction * 4.f);
+						}
+					}
 					bullets[i].direction = gracz2.last_direction;
 					bullets[i].speed = 500.f;
 					bullets[i].normal_speed = 500.f;
