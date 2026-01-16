@@ -31,10 +31,10 @@ void obslugaKolizji(
 					else {
 						bullets[i].direction.y *= -1.0f;
 						if (bullets[i].sprite.getPosition().y > walls[j].sprite.getPosition().y) {
-							bullets[i].sprite.move({ pole_kolizji->size.y, 0.0f }); // przesuwanie pi³ki poza œcianê
+							bullets[i].sprite.move({ 0.0f , pole_kolizji->size.y }); // przesuwanie pi³ki poza œcianê
 						}
 						else {
-							bullets[i].sprite.move({ -pole_kolizji->size.y, 0.0f });
+							bullets[i].sprite.move({ 0.0f , -pole_kolizji->size.y });
 						}
 					}
 					bullets[i].sprite.move(bullets[i].direction * 2.0f);
