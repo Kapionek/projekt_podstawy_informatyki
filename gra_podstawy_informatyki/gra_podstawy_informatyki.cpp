@@ -155,7 +155,7 @@ int main(){
 	while (kolizja_start_speedup) {
 		speedup.sprite.setPosition({ (float)(rand() % 600 + 100), (float)(rand() % 600 + 100) });
 		kolizja_start_speedup = false;
-		for (int i = 0; i < 250; i++) {
+		for (int i = 0; i < walls.size(); i++) {
 			if (speedup.sprawdzKolizje(walls[i])) {
 				kolizja_start_speedup = true;
 				break;
@@ -173,7 +173,7 @@ int main(){
 	while (kolizja_start_slowdown) {
 		slowdown.sprite.setPosition({ (float)(rand() % 600 + 100), (float)(rand() % 600 + 100) });
 		kolizja_start_slowdown = false;
-		for (int i = 0; i < 250; i++) {
+		for (int i = 0; i < walls.size(); i++) {
 			if (slowdown.sprawdzKolizje(walls[i])) {
 				kolizja_start_slowdown = true;
 				break;
@@ -191,7 +191,7 @@ int main(){
 	while (kolizja_start_big_ball) {
 		big_ball.sprite.setPosition({ (float)(rand() % 600 + 100), (float)(rand() % 600 + 100) });
 		kolizja_start_big_ball = false;
-		for (int i = 0; i < 250; i++) {
+		for (int i = 0; i < walls.size(); i++) {
 			if (big_ball.sprawdzKolizje(walls[i])) {
 				kolizja_start_big_ball = true;
 				break;
@@ -306,7 +306,7 @@ int main(){
 		obslugaKolizji(gracz, gracz2, bullets, walls, speedup, slowdown, big_ball, pdouble, max_bullets);
 		// tu pomiędzy clear() a display() dajemy draw do obiektów bo bez draw nic sie nie wyświetli
 		window.clear();  // czyści okno z poprzedniej klatki
-		for (int i = 0; i < 250; i++) {
+		for (int i = 0; i < walls.size(); i++) {
 			if (walls[i].visible) {
 				window.draw(walls[i].sprite);
 			}

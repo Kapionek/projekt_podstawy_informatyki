@@ -13,7 +13,7 @@ void obslugaKolizji(
 {
 	for (int i = 0; i < max_bullets; i++) {
 		if (bullets[i].visible) {
-			for (int j = 0; j < 250; j++) {
+			for (int j = 0; j < walls.size(); j++) {
 				//sprawdzanie, czy zasz³a kolizja i pobranie jej obszaru
 				auto pole_kolizji = bullets[i].sprite.getGlobalBounds().findIntersection(walls[j].sprite.getGlobalBounds());
 				//zmienna przechowuje ma³y prostok¹t, czyli wspolny obszar pi³ki i œciany gdy zachodzi kolizja
@@ -21,9 +21,21 @@ void obslugaKolizji(
 				if (pole_kolizji) { //dosz³o do zderzenia
 					if (pole_kolizji->size.x < pole_kolizji->size.y) { //uderzenie z boku (wê¿sze pole kolizji)
 						bullets[i].direction.x *= -1.0f; // odwracanie kierunku poziomego
+						if (bullets[i].sprite.getPosition().x > walls[j].sprite.getPosition().x) {
+							bullets[i].sprite.move({ pole_kolizji->size.x, 0.0f }); // przesuwanie pi³ki poza œcianê
+						}
+						else {
+							bullets[i].sprite.move({ -pole_kolizji->size.x, 0.0f });
+						}
 					}
 					else {
 						bullets[i].direction.y *= -1.0f;
+						if (bullets[i].sprite.getPosition().y > walls[j].sprite.getPosition().y) {
+							bullets[i].sprite.move({ pole_kolizji->size.y, 0.0f }); // przesuwanie pi³ki poza œcianê
+						}
+						else {
+							bullets[i].sprite.move({ -pole_kolizji->size.y, 0.0f });
+						}
 					}
 					bullets[i].sprite.move(bullets[i].direction * 2.0f);
 				}
@@ -44,7 +56,7 @@ void obslugaKolizji(
 
 
 	//œlizganie graczy na œcianach
-	for (int j = 0; j < 250; j++) {
+	for (int j = 0; j < walls.size(); j++) {
 		//kolizje dla 1 gracza
 		auto pole_g1 = gracz.sprite.getGlobalBounds().findIntersection(walls[j].sprite.getGlobalBounds());
 		if (pole_g1) {

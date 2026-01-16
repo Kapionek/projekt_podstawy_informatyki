@@ -23,7 +23,7 @@ void obslugaRespawnBonusow(
 				speedup.sprite.setPosition({ (float)(rand() % 600 + 100), (float)(rand() % 600 + 100) });
 				kolizja = false; //zak³adam ¿e jest ok
 				//sprawdzanie czy dotyka œciany
-				for (int i = 0; i < 250; i++) {
+				for (int i = 0; i < walls.size(); i++) {
 					if (speedup.sprawdzKolizje(walls[i])) {
 						kolizja = true; //trafi³o na œcianê
 						break;
@@ -42,7 +42,7 @@ void obslugaRespawnBonusow(
 				big_ball.sprite.setPosition({ (float)(rand() % 600 + 100), (float)(rand() % 600 + 100) });
 				kolizja = false; //zak³adam ¿e jest ok
 				//sprawdzanie czy dotyka œciany
-				for (int i = 0; i < 250; i++) {
+				for (int i = 0; i < walls.size(); i++) {
 					if (big_ball.sprawdzKolizje(walls[i])) {
 						kolizja = true; //trafi³o na œcianê
 						break;
@@ -61,7 +61,7 @@ void obslugaRespawnBonusow(
 				slowdown.sprite.setPosition({ (float)(rand() % 600 + 100), (float)(rand() % 600 + 100) });
 				kolizja = false; //zak³adam ¿e jest ok
 				//sprawdzanie czy dotyka œciany
-				for (int i = 0; i < 250; i++) {
+				for (int i = 0; i < walls.size(); i++) {
 					if (slowdown.sprawdzKolizje(walls[i])) {
 						kolizja = true; //trafi³o na œcianê
 						break;
@@ -80,7 +80,7 @@ void obslugaRespawnBonusow(
 				pdouble.sprite.setPosition({ (float)(rand() % 600 + 100), (float)(rand() % 600 + 100) });
 				kolizja = false; //zak³adam ¿e jest ok
 				//sprawdzanie czy dotyka œciany
-				for (int i = 0; i < 250; i++) {
+				for (int i = 0; i < walls.size(); i++) {
 					if (pdouble.sprawdzKolizje(walls[i])) {
 						kolizja = true; //trafi³o na œcianê
 						break;
