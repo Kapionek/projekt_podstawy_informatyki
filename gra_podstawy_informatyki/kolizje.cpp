@@ -53,8 +53,6 @@ void obslugaKolizji(
 		}
 	}
 
-
-
 	//œlizganie graczy na œcianach
 	for (int j = 0; j < walls.size(); j++) {
 		//kolizje dla 1 gracza

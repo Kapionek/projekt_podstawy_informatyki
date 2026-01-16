@@ -47,7 +47,7 @@ void resetujGre(Object& g1, Object& g2, std::vector<Bullet>& b, std::vector<Zyci
 
 int main(){
 	srand(time(NULL));
-	sf::RenderWindow window(sf::VideoMode({ 800,808 }), "Zbijak");  // tworzy okno w {} jest rozmiar, "Zbijak" wyświetla się na górze okienka
+	sf::RenderWindow window(sf::VideoMode({ 800,816 }), "Zbijak");  // tworzy okno w {} jest rozmiar, "Zbijak" wyświetla się na górze okienka
 	const int max_bullets = 20; // const jest potrzebny do tablicy  
 
 
@@ -75,7 +75,7 @@ int main(){
 		return -1;
 	}
 	sf::Texture textura_zycie;
-	if (!textura_zycie.loadFromFile("textury/zycie.png")) {
+	if (!textura_zycie.loadFromFile("textury/zycieV2.png")) {
 		return -1;
 	}
 	sf::Texture textura;    // tu jest ładowanie textur 
@@ -106,10 +106,10 @@ int main(){
 	}
 	for (int i = 0; i < 50; i++) {
 		float pos = i * 16.f + 8.0f;//16 pikseli szerokośći oraz środek w punkcie (8,8)
-		walls[i].sprite.setPosition({ pos, 16.f }); //góra
-		walls[i + 50].sprite.setPosition({ pos, 800.f });//dół
-		walls[i + 100].sprite.setPosition({ 8.f, pos + 8});//lewo
-		walls[i + 150].sprite.setPosition({ 792.f,pos + 8});//prawo
+		walls[i].sprite.setPosition({ pos, 24.f }); //góra
+		walls[i + 50].sprite.setPosition({ pos, 808.f });//dół
+		walls[i + 100].sprite.setPosition({ 8.f, pos + 16});//lewo
+		walls[i + 150].sprite.setPosition({ 792.f,pos + 16});//prawo
 	}
 
 	for (int i = 0; i < 25; i++) {
@@ -220,16 +220,16 @@ int main(){
 
 	for (int i = 0; i < 6; i++) {
 		zycia[i].movable = false;
-		zycia[i].sprite.setOrigin({ 4,4 });
-		float pos = i * 8.f + 4.f;
+		zycia[i].sprite.setOrigin({ 8,8 });
+		float pos = i * 16.f + 8.f;
 		if (i < 3) {
-			zycia[i].sprite.setPosition({ pos, 4.f });
+			zycia[i].sprite.setPosition({ pos, 8.f });
 			zycia[i].team = 1;
 			zycia[i].gracz = &gracz;
 			zycia[i].id = i;
 		}
 		else {
-			zycia[i].sprite.setPosition({ pos + 752, 4.f });
+			zycia[i].sprite.setPosition({ pos + 704, 8.f });
 			zycia[i].team = 2;
 			zycia[i].gracz = &gracz2;
 			zycia[i].id = i - 3;
