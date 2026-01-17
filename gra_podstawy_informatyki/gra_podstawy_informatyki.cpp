@@ -51,8 +51,12 @@ int main(){
 	sf::RenderWindow window(sf::VideoMode({ 800,816 }), "Zbijak");  // tworzy okno w {} jest rozmiar, "Zbijak" wyświetla się na górze okienka
 	const int max_bullets = 20; // const jest potrzebny do tablicy  
 
+	sf::Font font;  // font wczytanie 
+	if (!font.openFromFile("arial.ttf")) {
+		return -1;
+	}
 
-	sf::SoundBuffer buffer;
+	sf::SoundBuffer buffer;   // muzyka wczytanie
 	if (!buffer.loadFromFile("muzyka.mp3")) {
 		return -1;
 	}
@@ -237,6 +241,16 @@ int main(){
 		}
 	}
 
+	sf::Text nick1(font);  // fonty to  nicków graczy 
+	nick1.setString("Gracz 1");
+	nick1.setCharacterSize(14);
+	nick1.setFillColor(sf::Color::Yellow);
+
+	sf::Text nick2(font);
+	nick2.setString("Gracz 1");
+	nick2.setCharacterSize(14);
+	nick2.setFillColor(sf::Color::Cyan);
+
 	sf::Clock clock; // zegar do mierzenia czasu między klatkami
 	float timer_speedup = 0.f; //liczniki czasu do odrodzenia bonusów
 	float timer_slowdown = 0.f;
@@ -263,6 +277,10 @@ int main(){
 					resetujGre(gracz, gracz2, bullets, zycia);
 				menu.resetFlags();
 				state = GameState::GAME;
+				nick1.setString(menu.getNick1());
+				nick1.setOrigin({ nick1.getLocalBounds().size.x / 2, 0 });
+				nick2.setString(menu.getNick2());
+				nick2.setOrigin({ nick2.getLocalBounds().size.x / 2, 0 });
 				clock.restart();
 			}
 
@@ -270,12 +288,10 @@ int main(){
 
 			window.clear();
 			menu.draw();
-			menu.draw();
 			window.display();
 
 			continue;
 		}
-
 
 		sf::Time timer = clock.restart(); // sf::Time - to jest wynik // mierzy czas między klatkami
 		float delta = timer.asSeconds();
@@ -305,9 +321,13 @@ int main(){
 		for (int i = 0; i < 6; i++) {
 			zycia[i]._physics_process(delta);
 		}
-
+		nick1.setPosition({ gracz.sprite.getPosition().x, gracz.sprite.getPosition().y - 30 });
+		nick2.setPosition({ gracz2.sprite.getPosition().x, gracz2.sprite.getPosition().y - 30 });
 		//KOLIZJE
 		obslugaKolizji(gracz, gracz2, bullets, walls, speedup, slowdown, big_ball, pdouble, max_bullets);
+		//
+		// 
+		// 
 		// tu pomiędzy clear() a display() dajemy draw do obiektów bo bez draw nic sie nie wyświetli
 		window.clear();  // czyści okno z poprzedniej klatki
 		for (int i = 0; i < walls.size(); i++) {
@@ -327,9 +347,11 @@ int main(){
 		}
 		if (gracz.visible) {
 			window.draw(gracz.sprite);
+			window.draw(nick1);
 		}
 		if (gracz2.visible) {
 			window.draw(gracz2.sprite);
+			window.draw(nick2);
 		}
 		if (speedup.visible) {
 			window.draw(speedup.sprite);
@@ -343,7 +365,6 @@ int main(){
 		if (pdouble.visible) {
 			window.draw(pdouble.sprite);
 		}
-
 		//sprawdzanie konca gry
 		if (gracz.health <= 0 || gracz2.health <= 0) {
 			int winner = (gracz.health > 0) ? 1 : 2;

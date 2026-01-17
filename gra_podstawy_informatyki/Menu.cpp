@@ -138,7 +138,7 @@ void Menu::draw() {
     }
 
     if (enteringNames) {
-        sf::RectangleShape overlay({ 800.f, 808.f });
+        sf::RectangleShape overlay({ 800.f, 816.f });
         overlay.setFillColor(sf::Color(0, 0, 0, 220));
         window.draw(overlay);
 
