@@ -128,7 +128,7 @@ void obslugaGracza2(Object& gracz2, Bullet bullets[], int max_bullets, Object wa
 			gracz2.direction = gracz2.last_direction;
 		}
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::N)) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Period)) {
 		if (gracz2.shot_cooldown <= 0.f) {
 			int ile_pociskow;
 			if (gracz2.multishot == true) {
