@@ -17,7 +17,8 @@ enum class GameState //enum zarzadza stanami gry w tym samym oknie
 {
 	MENU,
 	GAME,
-	END_SCREEN
+	END_SCREEN,
+	NAME_INPUT
 };
 
 //resert gry zrobilem osobna funkcje bo zaczyanlem miec problemy z odnalezieniem sie w kodzie 
@@ -251,14 +252,16 @@ int main(){
 			while (const std::optional event = window.pollEvent()) {
 				if (event->is<sf::Event::Closed>()) window.close();
 				menu.handleEvent(*event);
+
+				//Dynamiczna aktualizacja głośności muzyki podczas przesuwania paska w menu
+				music.setVolume(menu.getVolume());
 			}
 
 			if (menu.shouldStartGame()) {
 				// resertuje stan gry przed nowym startem
-				resetujGre(gracz, gracz2, bullets, zycia);
-
+				//Jeśli menu mówi, że gra ma wystartować, upewniamy się, że stan to GAME
+					resetujGre(gracz, gracz2, bullets, zycia);
 				menu.resetFlags();
-
 				state = GameState::GAME;
 				clock.restart();
 			}
@@ -266,6 +269,7 @@ int main(){
 			if (menu.shouldExit()) window.close();
 
 			window.clear();
+			menu.draw();
 			menu.draw();
 			window.display();
 
