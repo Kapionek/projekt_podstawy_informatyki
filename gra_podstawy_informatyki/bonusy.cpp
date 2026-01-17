@@ -22,6 +22,7 @@ void obslugaRespawnBonusow(
 			while (kolizja) {
 				speedup.sprite.setPosition({ (float)(rand() % 600 + 100), (float)(rand() % 600 + 100) });
 				kolizja = false; //zak³adam ¿e jest ok
+				speedup.visible = true;
 				//sprawdzanie czy dotyka œciany
 				for (int i = 0; i < walls.size(); i++) {
 					if (speedup.sprawdzKolizje(walls[i])) {
@@ -30,7 +31,6 @@ void obslugaRespawnBonusow(
 					}
 				}
 			}
-			speedup.visible = true;
 			timer_speedup = 0.f;
 		}
 	}
@@ -41,6 +41,7 @@ void obslugaRespawnBonusow(
 			while (kolizja) {
 				big_ball.sprite.setPosition({ (float)(rand() % 600 + 100), (float)(rand() % 600 + 100) });
 				kolizja = false; //zak³adam ¿e jest ok
+				big_ball.visible = true;
 				//sprawdzanie czy dotyka œciany
 				for (int i = 0; i < walls.size(); i++) {
 					if (big_ball.sprawdzKolizje(walls[i])) {
@@ -49,7 +50,6 @@ void obslugaRespawnBonusow(
 					}
 				}
 			}
-			big_ball.visible = true;
 			timer_bigball = 0.f;
 		}
 	}
@@ -60,6 +60,7 @@ void obslugaRespawnBonusow(
 			while (kolizja) {
 				slowdown.sprite.setPosition({ (float)(rand() % 600 + 100), (float)(rand() % 600 + 100) });
 				kolizja = false; //zak³adam ¿e jest ok
+				slowdown.visible = true;
 				//sprawdzanie czy dotyka œciany
 				for (int i = 0; i < walls.size(); i++) {
 					if (slowdown.sprawdzKolizje(walls[i])) {
@@ -68,7 +69,6 @@ void obslugaRespawnBonusow(
 					}
 				}
 			}
-			slowdown.visible = true;
 			timer_slowdown = 0.f;
 		}
 	}
@@ -79,6 +79,7 @@ void obslugaRespawnBonusow(
 			while (kolizja) {
 				pdouble.sprite.setPosition({ (float)(rand() % 600 + 100), (float)(rand() % 600 + 100) });
 				kolizja = false; //zak³adam ¿e jest ok
+				pdouble.visible = true;
 				//sprawdzanie czy dotyka œciany
 				for (int i = 0; i < walls.size(); i++) {
 					if (pdouble.sprawdzKolizje(walls[i])) {
@@ -87,7 +88,6 @@ void obslugaRespawnBonusow(
 					}
 				}
 			}
-			pdouble.visible = true;
 			timer_pdouble = 0.f;
 		}
 	}
