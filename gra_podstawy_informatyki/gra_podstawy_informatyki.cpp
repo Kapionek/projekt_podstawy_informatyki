@@ -22,7 +22,7 @@ enum class GameState //enum zarzadza stanami gry w tym samym oknie
 };
 
 //resert gry zrobilem osobna funkcje bo zaczyanlem miec problemy z odnalezieniem sie w kodzie 
-void resetujGre(Object& g1, Object& g2, std::vector<Bullet>& b, std::vector<Zycie>& z) {
+void resetujGre(Object& g1, Object& g2, std::vector<Bullet>& b, std::vector<Zycie>& z, std::vector<Object>& walls, int seed) {
 	// Przywracanie zdrowia i pozycji gracza 1
 	g1.health = 3;
 	g1.velocity = { 0.f, 0.f };
@@ -44,12 +44,30 @@ void resetujGre(Object& g1, Object& g2, std::vector<Bullet>& b, std::vector<Zyci
 	for (auto& serce : z) {
 		serce.visible = true;
 	}
+	seed = rand() % 2; // losowanie mapy
+	switch (seed) {
+	case 0:
+		for (int i = 0; i < 25; i++) {
+			float offset = i * 16.f;
+			walls[i + 200].sprite.setPosition({ 200.f + offset, 200.f });
+			walls[i + 225].sprite.setPosition({ 200.f + offset, 600.f });
+		}
+		break; 
+	case 1:
+		for (int i = 0; i < 25; i++) {
+			float offset = i * 16.f;
+			walls[i + 200].sprite.setPosition({ 200.f, 200.f + offset });
+			walls[i + 225].sprite.setPosition({ 600.f, 200.f + offset });
+		}
+		break;
+	}
 }
 
-int main(){
+int main() {
 	srand(time(NULL));
 	sf::RenderWindow window(sf::VideoMode({ 800,816 }), "Zbijak");  // tworzy okno w {} jest rozmiar, "Zbijak" wyświetla się na górze okienka
 	const int max_bullets = 20; // const jest potrzebny do tablicy  
+	int seed = rand() % 2; // losowanie mapy
 
 	sf::Font font;  // font wczytanie 
 	if (!font.openFromFile("arial.ttf")) {
@@ -113,14 +131,24 @@ int main(){
 		float pos = i * 16.f + 8.0f;//16 pikseli szerokośći oraz środek w punkcie (8,8)
 		walls[i].sprite.setPosition({ pos, 24.f }); //góra
 		walls[i + 50].sprite.setPosition({ pos, 808.f });//dół
-		walls[i + 100].sprite.setPosition({ 8.f, pos + 16});//lewo
-		walls[i + 150].sprite.setPosition({ 792.f,pos + 16});//prawo
+		walls[i + 100].sprite.setPosition({ 8.f, pos + 16 });//lewo
+		walls[i + 150].sprite.setPosition({ 792.f,pos + 16 });//prawo
 	}
-
-	for (int i = 0; i < 25; i++) {
-		float offset = i * 16.f;
-		walls[i + 200].sprite.setPosition({ 200.f + offset, 200.f });
-		walls[i + 225].sprite.setPosition({ 200.f + offset, 600.f });
+	switch (seed) {
+	case 0:
+		for (int i = 0; i < 25; i++) {
+			float offset = i * 16.f;
+			walls[i + 200].sprite.setPosition({ 200.f + offset, 200.f });
+			walls[i + 225].sprite.setPosition({ 200.f + offset, 600.f });
+		}
+		break;
+	case 1:
+		for (int i = 0 ; i < 25; i++) {
+			float offset = i * 16.f;
+			walls[i + 200].sprite.setPosition({ 200.f, 200.f + offset });
+			walls[i + 225].sprite.setPosition({ 600.f, 200.f + offset });
+		}
+		break;
 	}
 
 	for (int i = 0; i < 250; i++) {
@@ -274,7 +302,7 @@ int main(){
 			if (menu.shouldStartGame()) {
 				// resertuje stan gry przed nowym startem
 				//Jeśli menu mówi, że gra ma wystartować, upewniamy się, że stan to GAME
-					resetujGre(gracz, gracz2, bullets, zycia);
+					resetujGre(gracz, gracz2, bullets, zycia, walls, seed);
 				menu.resetFlags();
 				state = GameState::GAME;
 				nick1.setString(menu.getNick1());
