@@ -21,6 +21,7 @@ void obslugaKolizji(
 				if (pole_kolizji) { //dosz³o do zderzenia
 					if (pole_kolizji->size.x < pole_kolizji->size.y) { //uderzenie z boku (wê¿sze pole kolizji)
 						bullets[i].direction.x *= -1.0f; // odwracanie kierunku poziomego
+						//wypchniêcie pocisku poza œcianê o szerokoœæ kolizji
 						if (bullets[i].sprite.getPosition().x > walls[j].sprite.getPosition().x) {
 							bullets[i].sprite.move({ pole_kolizji->size.x, 0.0f }); // przesuwanie pi³ki poza œcianê
 						}
@@ -28,8 +29,9 @@ void obslugaKolizji(
 							bullets[i].sprite.move({ -pole_kolizji->size.x, 0.0f });
 						}
 					}
-					else {
+					else { //uderzenie z góry lub do³u
 						bullets[i].direction.y *= -1.0f;
+						//wypchniêcie w pionie o wysokoœæ kolizji
 						if (bullets[i].sprite.getPosition().y > walls[j].sprite.getPosition().y) {
 							bullets[i].sprite.move({ 0.0f , pole_kolizji->size.y }); // przesuwanie pi³ki poza œcianê
 						}
