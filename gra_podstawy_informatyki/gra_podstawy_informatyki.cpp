@@ -22,7 +22,7 @@ enum class GameState //enum zarzadza stanami gry w tym samym oknie
 };
 
 //resert gry zrobilem osobna funkcje bo zaczyanlem miec problemy z odnalezieniem sie w kodzie 
-void resetujGre(Object& g1, Object& g2, std::vector<Bullet>& b, std::vector<Zycie>& z, std::vector<Object>& walls, int seed) {
+void resetujGre(Object& g1, Object& g2, std::vector<Bullet>& b, std::vector<Zycie>& z, std::vector<Object>& walls, int seed, Object& speedup, Object& slowdown, Object& big_ball, Object& pdouble) {
 	// Przywracanie zdrowia i pozycji gracza 1
 	g1.health = 3;
 	g1.velocity = { 0.f, 0.f };
@@ -60,6 +60,55 @@ void resetujGre(Object& g1, Object& g2, std::vector<Bullet>& b, std::vector<Zyci
 			walls[i + 225].sprite.setPosition({ 600.f, 200.f + offset });
 		}
 		break;
+	}
+	//przesunięcie bonusów na nowe bezpieczne miejsce
+	bool kol_sl = true;
+	while (kol_sl) {
+		slowdown.sprite.setPosition({ (float)(rand() % 600 + 100), (float)(rand() % 600 + 100) });
+		slowdown.visible = true;
+		kol_sl = false;
+		for (int i = 0; i < walls.size(); i++) {
+			if (slowdown.sprawdzKolizje(walls[i])) {
+				kol_sl = true;
+				break;
+			}
+		}
+	}
+	bool kol_bb = true;
+	while (kol_bb) {
+		big_ball.sprite.setPosition({ (float)(rand() % 600 + 100), (float)(rand() % 600 + 100) });
+		big_ball.visible = true;
+		kol_bb = false;
+		for (int i = 0; i < walls.size(); i++) {
+			if (big_ball.sprawdzKolizje(walls[i])) {
+				kol_bb = true;
+				break;
+			}
+		}
+	}
+	bool kol_pd = true;
+	while (kol_pd) {
+		pdouble.sprite.setPosition({ (float)(rand() % 600 + 100), (float)(rand() % 600 + 100) });
+		pdouble.visible = true;
+		kol_pd = false;
+		for (int i = 0; i < walls.size(); i++) {
+			if (pdouble.sprawdzKolizje(walls[i])) {
+				kol_pd = true;
+				break;
+			}
+		}
+	}
+	bool kol_s = true;
+	while (kol_s) {
+		speedup.sprite.setPosition({ (float)(rand() % 600 + 100), (float)(rand() % 600 + 100) });
+		speedup.visible = true;
+		kol_s = false;
+		for (int i = 0; i < walls.size(); i++) {
+			if (speedup.sprawdzKolizje(walls[i])) {
+				kol_s = true;
+				break;
+			}
+		}
 	}
 }
 
@@ -302,7 +351,7 @@ int main() {
 			if (menu.shouldStartGame()) {
 				// resertuje stan gry przed nowym startem
 				//Jeśli menu mówi, że gra ma wystartować, upewniamy się, że stan to GAME
-					resetujGre(gracz, gracz2, bullets, zycia, walls, seed);
+					resetujGre(gracz, gracz2, bullets, zycia, walls, seed, speedup, slowdown, big_ball, pdouble);
 				menu.resetFlags();
 				state = GameState::GAME;
 				nick1.setString(menu.getNick1());
