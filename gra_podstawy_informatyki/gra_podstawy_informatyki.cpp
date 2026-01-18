@@ -28,12 +28,20 @@ void resetujGre(Object& g1, Object& g2, std::vector<Bullet>& b, std::vector<Zyci
 	g1.velocity = { 0.f, 0.f };
 	g1.sprite.setPosition({ 100.f, 100.f });
 	g1.visible = true;
+	g1.big_ball_time = 0.f;
+	g1.multishot_time = 0.f;
+	g1.speed_buff_time = 0.f;
+	g1.slow_buff_time = 0.f;
 
 	// Przywracanie zdrowia i pozycji gracza 2
 	g2.health = 3;
 	g2.velocity = { 0.f, 0.f };
 	g2.sprite.setPosition({ 700.f, 700.f });
 	g2.visible = true;
+	g2.big_ball_time = 0.f;
+	g2.multishot_time = 0.f;
+	g2.speed_buff_time = 0.f;
+	g2.slow_buff_time = 0.f;
 
 	// Ukrywanie wszystkich pocisków na ekranie
 	for (auto& bullet : b) {
@@ -119,47 +127,47 @@ int main() {
 	int seed = rand() % 2; // losowanie mapy
 
 	sf::Font font;  // font wczytanie 
-	if (!font.openFromFile("arial.ttf")) {
+	if (!font.openFromFile("assets/arial.ttf")) {
 		return -1;
 	}
 
 	sf::SoundBuffer buffer;   // muzyka wczytanie
-	if (!buffer.loadFromFile("muzyka.mp3")) {
+	if (!buffer.loadFromFile("assets/muzyka.mp3")) {
 		return -1;
 	}
 	sf::Sound music(buffer);
 	// inicjacja textur (musmy je zainicjować wcześniej bo SFML musi mieć textury wcześniej 
 
 	sf::Texture textura_speed_buff;
-	if (!textura_speed_buff.loadFromFile("textury/speed_buff.png")) {
+	if (!textura_speed_buff.loadFromFile("assets/textury/speed_buff.png")) {
 		return -1;
 	}
 	sf::Texture textura_speed_debuff;
-	if (!textura_speed_debuff.loadFromFile("textury/speed_debuff.png")) {
+	if (!textura_speed_debuff.loadFromFile("assets/textury/speed_debuff.png")) {
 		return -1;
 	}
 	sf::Texture textura_multishot;
-	if (!textura_multishot.loadFromFile("textury/multishot.png")) {
+	if (!textura_multishot.loadFromFile("assets/textury/multishot.png")) {
 		return -1;
 	}
 	sf::Texture textura_big_ball;
-	if (!textura_big_ball.loadFromFile("textury/big_ball.png")) {
+	if (!textura_big_ball.loadFromFile("assets/textury/big_ball.png")) {
 		return -1;
 	}
 	sf::Texture textura_zycie;
-	if (!textura_zycie.loadFromFile("textury/zycieV2.png")) {
+	if (!textura_zycie.loadFromFile("assets/textury/zycieV2.png")) {
 		return -1;
 	}
 	sf::Texture textura;    // tu jest ładowanie textur 
-	if (!textura.loadFromFile("textury/pilka.png")) {
+	if (!textura.loadFromFile("assets/textury/pilka.png")) {
 		return -1;
 	}  // ogólnie to do każdej textury robimy dokładnie to samo tylko zmieniasz nazwę i ścierzkę do pliku 
 	sf::Texture textura_sciana;
-	if (!textura_sciana.loadFromFile("textury/sciana.png")) {
+	if (!textura_sciana.loadFromFile("assets/textury/sciana.png")) {
 		return -1;
 	}
 	sf::Texture textura_gracz;
-	if (!textura_gracz.loadFromFile("textury/gracz.png")) {
+	if (!textura_gracz.loadFromFile("assets/textury/gracz.png")) {
 		return -1;
 	}
 

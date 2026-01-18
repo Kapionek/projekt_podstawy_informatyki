@@ -14,7 +14,7 @@ Menu::Menu(sf::RenderWindow& window, std::vector<Object>& walls)
     inputDisplay(font),
     namesEnteredOnce(false) // Inicjalizacja flagi
 {
-    if (!font.openFromFile("arial.ttf")) {
+    if (!font.openFromFile("assets/arial.ttf")) {
         // obs³uga b³êdu
     }
 
