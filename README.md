@@ -7,7 +7,7 @@ Do poprawnego skompilowania i uruchomienia gry potrzeba:
 * **Zainstalowana biblioteka SFML**(wersja 3.0 lub nowsza)
 *  **Narzędzia Git**
 
-##Instalacja i uruchomienie
+## Instalacja i uruchomienie
 ### 1. Pobranie projektu
 Sklonuj repozytorium na swój dysk lokalny:
 git clone https://github.com/Kapionek/projekt_podstawy_informatyki.git
@@ -27,8 +27,8 @@ Ruch: WSAD, Dash: E, Strzał: C
 Ruch: IKJL, Dash: O, Strzał: .
 
 ## Funkcje gry:
-* **Fizyka: realityczne odbijanie piłek od ścian i innych obiektów
-* **Mechanika ruchu: płynne przyśpiszanie postaci oraz brak przenikania przez ściany
-* **Powerupy: Speedup - zwieksza prędkość gracza, Slowdown - spowalnia przeciwnika, Big Ball - zwiększa rozmiar wystrzeliwanej piłki, Multishot - pozwala na wystrzelenie dwóch piłek naraz
-* **Personalizacja: możliwość wpisywania nicków graczy przed rozpoczęciem rozgrywki
-* **Audio: dynamiczna muzyka z możliwością regulacji głośności w menu
+* **Fizyka:** realistyczne odbijanie piłek od ścian i innych obiektów
+* **Mechanika ruchu:** płynne przyśpiszanie postaci oraz brak przenikania przez ściany
+* **Powerupy:** Speedup - zwieksza prędkość gracza, Slowdown - spowalnia przeciwnika, Big Ball - zwiększa rozmiar wystrzeliwanej piłki, Multishot - pozwala na wystrzelenie dwóch piłek naraz
+* **Personalizacja:** możliwość wpisywania nicków graczy przed rozpoczęciem rozgrywki
+* **Audio:** dynamiczna muzyka z możliwością regulacji głośności w menu
