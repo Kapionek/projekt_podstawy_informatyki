@@ -11,6 +11,7 @@ Do poprawnego skompilowania i uruchomienia gry potrzeba:
 ### 1. Pobranie projektu
 Sklonuj repozytorium na swój dysk lokalny:
 
+
 git clone https://github.com/Kapionek/projekt_podstawy_informatyki.git
 
 cd projekt_podstawy_informatyki
@@ -35,3 +36,13 @@ Ruch: IKJL, Dash: O, Strzał: .
 * **Powerupy:** Speedup - zwieksza prędkość gracza, Slowdown - spowalnia przeciwnika, Big Ball - zwiększa rozmiar wystrzeliwanej piłki, Multishot - pozwala na wystrzelenie dwóch piłek naraz
 * **Personalizacja:** możliwość wpisywania nicków graczy przed rozpoczęciem rozgrywki
 * **Audio:** dynamiczna muzyka z możliwością regulacji głośności w menu
+
+## Autorzy: 
+* Kamil Stokłosa Niżyński
+* Antoni Synowiec
+* Wojciech Rubacha
+
+## Credits/Licencje
+* **Muzyka:** Cyber Forge by **Psychronic** ("https://pixabay.com/music/video-games-cyber-forge-394066/")
+* **Grafika:** Wszystkie elementy graficzne są autorstwa: **Kamil Stokłosa Niżyński**
+* **Grafika/Licencja:** Powyższe elementy graficzne są udostępniane na podstawie: **Creative Commons Attribution 4.0 International (CC BY 4.0)**
