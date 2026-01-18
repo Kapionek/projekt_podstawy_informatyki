@@ -10,10 +10,13 @@ Do poprawnego skompilowania i uruchomienia gry potrzeba:
 ## Instalacja i uruchomienie
 ### 1. Pobranie projektu
 Sklonuj repozytorium na swój dysk lokalny:
+
 git clone https://github.com/Kapionek/projekt_podstawy_informatyki.git
+
 cd projekt_podstawy_informatyki
 ### 2. Kompilacja gry
 Jeśli używasz kompilatora g++ i masz zainstalowaną bibliotekę SFML:
+
 g++ *.cpp -o Zbijak -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 ### 3. Uruchomienie gry
 Gdy kompilacja się skończy wpisz:
@@ -21,9 +24,9 @@ Gdy kompilacja się skończy wpisz:
 
 ## Sterowanie
 Gra przeznaczona jest dla dwóch osób grających na jednej klawiaturze:
-* ###Gracz 1: 
+* ### Gracz 1: 
 Ruch: WSAD, Dash: E, Strzał: C
-* ###Gracz 2: 
+* ### Gracz 2: 
 Ruch: IKJL, Dash: O, Strzał: .
 
 ## Funkcje gry:
