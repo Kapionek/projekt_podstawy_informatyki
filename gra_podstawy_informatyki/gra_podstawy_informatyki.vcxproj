@@ -126,7 +126,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>sfml-graphics-d.lib;sfml-audio-d.lib;sfml-window-d.lib;sfml-system-d.lib</AdditionalDependencies>
+      <AdditionalDependencies>sfml-graphics.lib;sfml-audio.lib;sfml-window.lib;sfml-system.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Users\antor\projekt\projekt_podstawy_informatyki\SFML-3.0.2-windows-vc17-64-bit\SFML-3.0.2/lib;C:\Users\kapis\source\repos\gra_podstawy_informatyki\SFML-3.0.2-windows-vc17-64-bit\SFML-3.0.2\lib;C:\Users\wojru\source\repos\projekt_podstawy_informatyki\SFML-3.0.2-windows-vc17-64-bit\SFML-3.0.2\lib;C:\Users\kapis\source\repos\gra_podstawy_informatyki\SFML-3.0.2-windows-vc17-64-bit\SFML-3.0.2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
